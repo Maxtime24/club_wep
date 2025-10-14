@@ -7,18 +7,59 @@ import Image from 'next/image';
 import { useInView } from 'react-intersection-observer';
 
 // allOutputsData 경로는 프로젝트 구조에 맞게 다시 확인해주세요!
-import allOutputsData from '../../../data/allOutputs.json';
+import allOutputsData from '../../../data/allOutputs.json'; // ../../../data/allOutputs.json
 
-// ProjectCard 임포트 (여기서는 사용하지 않지만 기존 코드에 있었으므로 유지)
-// import ProjectCard from '../../components/common/ProjectCard'; // OutputsPage에서는 ProjectCard를 직접 사용하지 않습니다.
+// --- AnimatedDiv 컴포넌트 임포트 ---
+// AnimatedDiv가 src/components/AnimatedDiv.jsx (또는 .tsx)에 별도로 존재해야 합니다.
+// 아래는 해당 파일이 임포트되는 예시입니다.
+// AnimatedDiv의 파일 경로를 프로젝트 구조에 맞게 수정하세요.
+import AnimatedDiv from '../../components/common/AnimatedDiv'; // 예: '../../components/AnimatedDiv'
 
-// 새로 만든 AnimatedDiv 컴포넌트 임포트!
-// 경로는 src/components/AnimatedDiv.jsx 파일 위치에 따라 수정해주세요.
-// 예: import AnimatedDiv from '@/components/AnimatedDiv'; // (tsconfig.json path alias 사용 시)
-import AnimatedDiv from '../../components/common/AnimatedDiv'; // <-- 이 줄을 추가합니다!
+// 주의: 아래 'AnimatedDiv' 컴포넌트 정의 코드는
+// src/components/AnimatedDiv.jsx (또는 .tsx) 파일로 이동되어야 합니다.
+// 이 파일(app/outputs/page.tsx)에는 존재하면 안 됩니다.
+// 만약 'src/components/AnimatedDiv.jsx' 파일이 아직 없다면,
+// 먼저 그 파일을 생성하고 다음 내용을 넣어주세요.
+/*
+// src/components/AnimatedDiv.jsx (또는 .tsx) 파일 내용 시작
+'use client';
+import React from 'react';
+import { useInView } from 'react-intersection-observer';
 
-// NOTE: AnimatedDiv 컴포넌트의 직접 정의는 이 파일에서 제거됩니다.
-//       대신 위 import 문으로 가져와서 사용합니다.
+export default function AnimatedDiv({
+  children,
+  delay,
+  index
+}: {
+  children: React.ReactNode;
+  delay?: number;
+  index?: number;
+}): JSX.Element {
+  const { ref, inView } = useInView({
+    triggerOnce: true,
+    threshold: 0.1,
+  });
+
+  const baseDelay = delay !== undefined ? delay : 150;
+  const finalCalculatedDelay = index !== undefined ? (index * baseDelay) : 0;
+
+  return (
+    <div
+      ref={ref}
+      className={`
+        transition-all duration-1000 ease-out
+        ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}
+      `}
+      style={{ transitionDelay: `${finalCalculatedDelay}ms` }}
+    >
+      {children}
+    </div>
+  );
+}
+// src/components/AnimatedDiv.jsx (또는 .tsx) 파일 내용 끝
+*/
+// (위 주석처리된 코드는 app/outputs/page.tsx 파일에는 절대 있으면 안 됩니다!
+//  AnimatedDiv 컴포넌트 파일이 따로 존재한다면, 이 코드 블록 전체는 삭제하세요.)
 
 
 export default function OutputsPage() {
@@ -41,7 +82,7 @@ export default function OutputsPage() {
               ${titleInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}
             `}
           >
-            Students&apos;s Projects
+            Students&apos;s Projects {/* <-- ' (작은따옴표) 이스케이프 수정 완료 */}
           </h1>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

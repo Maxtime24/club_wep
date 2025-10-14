@@ -1,4 +1,50 @@
 @import "tailwindcss";
+@import "slick-carousel/slick/slick.css";
+@import "slick-carousel/slick/slick-theme.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+@font-face {
+    font-family: 'NexonLv1Gothic';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv1 Gothic OTF Light.woff') format('woff');
+    font-weight: 300;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'NexonLv1Gothic';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv1 Gothic OTF.woff') format('woff');
+    font-weight: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'NexonLv1Gothic';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv1 Gothic OTF Bold.woff') format('woff');
+    font-weight: 700;
+    font-display: swap;
+}
+
+@keyframes directBounceIn {
+  0% { transform: translateY(100%) scale(0.5); opacity: 0; }
+  60% { transform: translateY(-10%) scale(1.1); opacity: 1; }
+  80% { transform: translateY(5%) scale(0.95); }
+  100% { transform: translateY(0%) scale(1); opacity: 1; }
+}
+
+/* 애니메이션을 적용할 클래스 정의 */
+.animate-direct-bounce-in {
+  animation: directBounceIn 2s ease-out forwards; /* 1초 동안 실행, 마지막 상태 유지 */
+}
+
+/* 애니메이션 전 초기 상태를 위한 클래스 (JS에서 추가/제거) */
+.initial-hidden-below {
+  opacity: 0;
+  transform: translateY(20px);
+}
 
 :root {
   --background: #ffffff;

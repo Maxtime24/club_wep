@@ -1,0 +1,26 @@
+[
+  {
+    "id": "Example1",
+    "title": "EX1",
+    "description": "예시",
+    "image": "/images/proj1.jpg",
+    "tags" : ["AI", "Wep"],
+    "link": ""
+  },
+  {
+    "id": "Example2",
+    "title": "EX2",
+    "description": "예시",
+    "image": "/images/proj1.jpg",
+    "tags" : ["AI", "Wep"],
+    "link": ""
+  },
+  {
+    "id": "Example3",
+    "title": "EX3",
+    "description": "예시",
+    "image": "/images/proj1.jpg",
+    "tags" : ["AI", "Wep"],
+    "link": ""
+  }
+]

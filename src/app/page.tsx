@@ -8,8 +8,11 @@ import Link from 'next/link';
 import Slider from 'react-slick';
 import { useInView } from 'react-intersection-observer'; // useInView 훅 임포트
 
+
 // teacherPicks.json 데이터를 임포트합니다.
 import teacherPicksData from '../../data/allOutputs.json';
+
+import ProjectCard from '../components/common/ProjectCard';
 
 // --- 배경 이미지 목록 (public/images 폴더에 이미지를 넣어주세요!) ---
 const backgroundImageUrls = [
@@ -35,8 +38,8 @@ export default function Home() {
 
   // GYSAN HIGH SCHOOL AI DIGITAL LAB 문구에 사용할 ref와 inView 상태
   const { ref: mainTitleRef, inView: mainTitleInView } = useInView({
-    triggerOnce: false, // 한 번 뷰포트에 들어오면 다시 나갔다가 들어와도 애니메이션을 재생하지 않음
-    threshold: 0.1,    // 요소의 10%가 보일 때 트리거
+    triggerOnce: false,
+    threshold: 0.1,
   });
 
   // About 섹션의 제목(h1)과 내용(p)에 사용할 ref와 inView 상태
@@ -54,15 +57,6 @@ export default function Home() {
   const { ref: top3TitleRef, inView: top3TitleInView } = useInView({
     triggerOnce: false,
     threshold: 0.1,
-  });
-
-  // 각 프로젝트 카드에 사용할 ref와 inView 상태
-  const projectCardRefs = teacherPicksData.map(() => {
-    const { ref, inView } = useInView({
-      triggerOnce: false,
-      threshold: 0.1,
-    });
-    return { ref, inView };
   });
 
 
@@ -190,7 +184,7 @@ export default function Home() {
         </div>
 
         {/* 3. 선생님 픽 Top 3 산출물 섹션 */}
-        <div className="bg-stone-900 bg-opacity-70 py-12 md:py-20">
+         <div className="bg-stone-900 bg-opacity-70 py-12 md:py-20">
           <section className="container mx-auto p-8">
             <h2
               ref={top3TitleRef}
@@ -200,39 +194,37 @@ export default function Home() {
                 text-3xl md:text-4xl font-bold text-center text-white mb-10
               `}
             >
-              BEST TOP-3 OUTPUT
+              RECENT PROJECT
             </h2>
 
-            {/* 작품 3개를 칼럼으로 나열하는 부분! */}
+            {/* <<< --- 아래 이 div 안의 내용을 정확히 바꿔줍니다 --- >>> */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {teacherPicksData.map((project, index) => (
-                <div
-                  key={project.id}
-                  ref={projectCardRefs[index].ref}
-                  className={`
-                    transition-all duration-1000 ease-out
-                    ${projectCardRefs[index].inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}
-                    ${'delay-' + (index * 150)}
-                    bg-stone-800 rounded-lg shadow-xl p-6 flex flex-col items-center text-center transition-transform transform hover:scale-105
-                  `}
-                >
-                  <div className="relative w-full h-48 mb-4 rounded-md overflow-hidden">
-                    <Image
-                      src={project.image}
-                      alt={project.title}
-                      fill
-                      style={{ objectFit: 'cover' }}
-                      className="rounded-md"
-                    />
-                  </div>
-                  <h3 className="text-xl font-bold text-white mb-2">{project.title}</h3>
-                  <p className="text-gray-300 text-sm mb-4 line-clamp-2">{project.description}</p>
-                  <Link href={project.link} className="mt-auto inline-block bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded transition-colors duration-300">
-                    자세히 보기
-                  </Link>
-                </div>
+              {teacherPicksData.slice(0, 3).map((project, index) => ( // .slice(0,3)으로 상위 3개만 제한
+                <ProjectCard
+                  key={project.id} // ProjectCard는 자체적으로 모든 카드 UI를 포함합니다.
+                  project={project}
+                  index={index}
+                  delay={0}
+                />
               ))}
             </div>
+            {/* <<< --------------------------------------------- >>> */}
+
+            <div
+              className={`
+                transition-all duration-1000 ease-out delay-500
+                ${top3TitleInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}
+                text-center mt-12
+              `}
+            >
+              <Link href="/outputs" passHref>
+                <button className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-full text-lg shadow-lg bg-opacity-90 transition-transform transform hover:scale-105 duration-300">
+                  모든 산출물 보러가기
+                </button>
+              </Link>
+            </div>
+          </section>
+        </div>
 
             <div
               className={`
@@ -245,8 +237,6 @@ export default function Home() {
                 모든 산출물 보러가기
               </button>
             </div>
-          </section>
-        </div>
 
       </div>
     </div>

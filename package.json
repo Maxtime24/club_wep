@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "db:generate": "drizzle-kit generate --config drizzle.config.mjs",  
+    "db:generate": "drizzle-kit generate --config drizzle.config.mjs",
+    "db:migrate": "node ./src/run-migrations.ts",
     "db:seed": "node ./src/seed.ts"
   },
   "dependencies": {

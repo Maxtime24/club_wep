@@ -1,21 +1,16 @@
 {
   "compilerOptions": {
-    "target": "ES2017",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
     "noEmit": true,
     "esModuleInterop": true,
-    "module": "esnext",
-    "moduleResolution": "bundler",
+    "module": "esnext", // 혹은 "NodeNext" (Next.js 14부터 NodeNext 권장)
+    "moduleResolution": "bundler", // 혹은 "NodeNext" (Next.js 14부터 NodeNext 권장)
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "jsx": "preserve", // "preserve" 대신 "react-jsx"로 변경해주세요!
+    "jsx": "preserve",
     "incremental": true,
     "plugins": [
       {
@@ -23,27 +18,21 @@
       }
     ],
     "paths": {
-      "@/*": [
-        "./src/*"
-      ],
-
-      "@/db": ["./db"], // 이제 'db' 폴더를 '@drizzle' 같은 별칭으로도 참조할 수 있습니다.
-      "@/db/*": ["./db/*"], // db 폴더 안의 파일들도 참조할 수 있도록 설정
-      "@/lib/*": ["./lib/*"], // 다른 유틸리티 폴더 등을 위한 설정
-      "@/components/*": ["./src/components/*"], // components 폴더 alias
-      "@/data/*": ["./data/*"] // data 폴더 alias
-
+      "@/*": ["./src/*"],
+      "@/db": ["./db/index.ts"], // @/db는 db/index.ts 파일을 정확히 가리키도록
+      "@/db/*": ["./db/*"],       // @/db/schema.ts 등을 참조하기 위해
+      "@/components/*": ["./src/components/*"],
+      "@/data/*": ["./data/*"]
     },
-
-     "baseUrl": "."
+    "baseUrl": "."
   },
   "include": [
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    ".next/types/**/*.ts"
-, "drizzle.config.mjs"  ],
-  "exclude": [
-    "node_modules"
-  ]
+    ".next/types/**/*.ts",
+    "drizzle.config.mjs", // drizzle-kit 설정 파일 포함
+    "db/**/*.ts" // db 폴더 안의 모든 ts 파일 포함
+  ],
+  "exclude": ["node_modules"]
 }

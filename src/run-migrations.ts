@@ -3,11 +3,10 @@
 import * as dotenv from 'dotenv';
 dotenv.config({ path: '.env.local' });
 
-// 'db' 폴더 대신 'db/index.ts' 파일을 명시적으로 임포트!
-// 'db/schema' 폴더 대신 'db/schema.ts' 파일을 명시적으로 임포트!
+// '.ts' 대신 '.js' 확장자를 사용해야 Node.js ESM 런타임이 정확히 해석합니다!
 import { migrate } from 'drizzle-orm/neon-http/migrator';
-import { db } from '../db/index'; // <-- 여기를 수정!
-import * as schema from '../db/schema'; // <-- 여기를 수정!
+import { db } from '../db/index.js'; // <-- 여기를 수정!
+import * as schema from '../db/schema.js'; // <-- 여기를 수정!
 
 async function runMigrations() {
   if (!process.env.DATABASE_URL) {

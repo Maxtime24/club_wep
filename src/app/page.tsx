@@ -50,13 +50,13 @@ export default function Home() {
 
   const { ref: aboutContentRef, inView: aboutContentInView } = useInView({
     triggerOnce: false,
-    threshold: 0.1,
+    threshold: 0.2,
   });
 
   // BEST TOP-3 OUTPUT 섹션 제목에 사용할 ref와 inView 상태
   const { ref: top3TitleRef, inView: top3TitleInView } = useInView({
     triggerOnce: false,
-    threshold: 0.1,
+    threshold: 0.2,
   });
 
 
@@ -225,19 +225,6 @@ export default function Home() {
             </div>
           </section>
         </div>
-
-            <div
-              className={`
-                transition-all duration-1000 ease-out delay-500
-                ${top3TitleInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}
-                text-center mt-12
-              `}
-            >
-              <button className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-full text-lg shadow-lg bg-opacity-90 transition-transform transform hover:scale-105 duration-300">
-                모든 산출물 보러가기
-              </button>
-            </div>
-
       </div>
     </div>
   );

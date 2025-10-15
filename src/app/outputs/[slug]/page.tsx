@@ -1,47 +1,90 @@
 // src/app/outputs/[slug]/page.tsx
 
 import React from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { notFound } from 'next/navigation'; // 없는 페이지 처리 (404)
 
-// Next.js App Router에서 동적 라우팅 [slug] 페이지는 반드시
-// 'export default'와 함께 React 컴포넌트 함수를 내보내야 합니다.
-// params prop을 통해 URL의 slug 값을 접근할 수 있습니다.
+// allOutputsData 경로는 프로젝트 구조에 맞게 다시 확인해주세요!
+import allOutputsData from '../../../../data/allOutputs.json';
+
+
+// 1. generateStaticParams: 빌드 시점에 생성할 정적 페이지 목록 정의
+//    Next.js가 이 함수를 실행하여 어떤 slug 값을 가진 페이지를 미리 빌드할지 결정합니다.
+//    allOutputs.json에 있는 모든 프로젝트에 대해 페이지를 생성하게 됩니다.
+export async function generateStaticParams() {
+  return allOutputsData.map((project) => ({
+    slug: project.id, // allOutputsData의 각 project 객체에 'id' 필드가 있어야 합니다.
+  }));
+}
+
+
+// 2. ProjectDetailPage 컴포넌트: 실제 상세 페이지 렌더링
+//    { params: { slug: string } } 타입은 Next.js가 동적 라우팅에서 전달하는 형식입니다.
 export default function ProjectDetailPage({ params }: { params: { slug: string } }) {
   const { slug } = params; // URL에서 동적으로 전달되는 slug 값을 가져옵니다.
 
-  // TODO: 실제 프로젝트에서는 이 slug 값을 이용하여 데이터베이스나 JSON 파일 등에서
-  // 해당 프로젝트의 상세 정보를 불러와서 여기에 표시해야 합니다.
-  // 예시: const projectData = fetchProjectData(slug);
+  // slug 값과 일치하는 프로젝트 데이터를 찾습니다.
+  const project = allOutputsData.find((item) => item.id === slug);
+
+  // 만약 해당 slug를 가진 프로젝트를 찾을 수 없다면 404 페이지를 렌더링합니다.
+  if (!project) {
+    notFound(); // Next.js의 404 페이지를 띄웁니다.
+  }
 
   return (
     <div className="min-h-screen bg-stone-900 text-white p-8 pt-24 md:pt-28">
-      <div className="container mx-auto">
-        <h1 className="text-4xl md:text-5xl font-bold text-blue-500 mb-6 text-center">
-          Project Detail: <span className="font-semibold text-white">{slug}</span>
+      <div className="container mx-auto max-w-4xl">
+        {/* 뒤로 가기 버튼 */}
+        <Link href="/outputs" className="text-blue-400 hover:text-blue-300 transition-colors duration-200 mb-6 flex items-center">
+          <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+          산출물 목록으로 돌아가기
+        </Link>
+
+        {/* 프로젝트 제목 */}
+        <h1 className="text-4xl md:text-5xl font-extrabold text-center text-blue-500 mb-8 mt-4">
+          {project.title}
         </h1>
-        <p className="text-lg text-gray-300 text-center">
-          This is the detail page for project with ID: <span className="font-semibold text-white">{slug}</span>.
+
+        {/* 프로젝트 이미지 */}
+        <div className="relative w-full aspect-video rounded-lg overflow-hidden mb-8 shadow-xl">
+          <Image
+            src={project.image}
+            alt={project.title}
+            fill
+            style={{ objectFit: 'cover' }}
+            className="rounded-lg"
+            priority // 상세 페이지의 메인 이미지는 빠르게 로드되도록 우선순위 부여
+          />
+        </div>
+
+        {/* 프로젝트 설명 */}
+        <p className="text-lg text-gray-300 leading-relaxed mb-6 whitespace-pre-wrap">
+          {project.description}
         </p>
-        <p className="text-center mt-4">
-          {/* 실제 상세 내용이 로드되기 전의 임시 메시지 */}
-          Please implement data fetching here to show full project details.
-        </p>
-        {/*
-          예시: 실제 프로젝트 상세 정보 렌더링 (주석 해제 후 구현)
-          {projectData && (
-            <div className="mt-8 text-center">
-              <h2 className="text-3xl text-white">{projectData.title}</h2>
-              <Image
-                src={projectData.image}
-                alt={projectData.title}
-                width={800}
-                height={450}
-                className="mx-auto rounded-lg shadow-lg mt-4"
-              />
-              <p className="mt-4 text-gray-300">{projectData.description}</p>
-              // ... 더 많은 상세 정보
-            </div>
-          )}
-        */}
+
+        {/* 태그 목록 */}
+        <div className="flex flex-wrap justify-center gap-3 mb-8">
+          {project.tags.map((tag, tagIndex) => (
+            <span key={`${tag}-${tagIndex}`} className="bg-blue-600 text-white text-sm font-semibold px-3 py-1 rounded-full shadow">
+              {tag}
+            </span>
+          ))}
+        </div>
+
+        {/* 외부 링크 (옵션) */}
+        {project.link && (
+          <div className="text-center mt-8">
+            <a
+              href={project.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-6 rounded-full text-lg shadow-lg transition-transform transform hover:scale-105 duration-300"
+            >
+              프로젝트 보러 가기
+            </a>
+          </div>
+        )}
       </div>
     </div>
   );

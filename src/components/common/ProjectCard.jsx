@@ -38,7 +38,10 @@ export default function ProjectCard({ project, index, delay = 0 }) {
       </div>
       <h3 className="text-xl font-bold text-white mb-2">{project.title}</h3>
       <p className="text-gray-300 text-sm mb-4 line-clamp-2">{project.description}</p>
-      <Link href={project.link} className="mt-auto inline-block bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded transition-colors duration-300">
+      <Link
+        href={`/outputs/${project.id}`} // <--- 여기를 수정!
+        className="mt-auto inline-block bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded transition-colors duration-300"
+      >
         자세히 보기
       </Link>
     </div>

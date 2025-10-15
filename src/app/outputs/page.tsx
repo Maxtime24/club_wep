@@ -63,7 +63,10 @@ export default function OutputsPage() {
                       </span>
                     ))}
                   </div>
-                  <Link href={project.link} className="mt-auto inline-block bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded transition-colors duration-300">
+                   <Link
+                    href={`/outputs/${project.id}`} // <--- 여기를 수정!
+                    className="mt-auto inline-block bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded transition-colors duration-300"
+                  >
                     자세히 보기
                   </Link>
                 </div>

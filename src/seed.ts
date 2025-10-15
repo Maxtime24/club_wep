@@ -3,9 +3,10 @@
 import * as dotenv from 'dotenv';
 dotenv.config({ path: '.env.local' });
 
-// '@db' 대신 상대 경로 사용!
-import { db } from '../db'; // <-- './db' -> '../db'로 수정
-import { outputs } from '../db/schema'; // <-- './db/schema' -> '../db/schema'로 수정
+// 'db' 폴더 대신 'db/index.ts' 파일을 명시적으로 임포트!
+// 'db/schema' 폴더 대신 'db/schema.ts' 파일을 명시적으로 임포트!
+import { db } from '../db/index'; // <-- 여기를 수정!
+import { outputs } from '../db/schema'; // <-- 여기를 수정!
 import allOutputsData from '../data/allOutputs.json';
 
 async function seedData() {

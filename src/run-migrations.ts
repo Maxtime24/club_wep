@@ -1,10 +1,13 @@
-import * as dotenv from 'dotenv';
-dotenv.config({ path: '.env.local' }); // .env.local 파일을 명시적으로 로드
-//console.log('DATABASE_URL from dotenv:', process.env.DATABASE_URL); // 디버깅용
+// src/run-migrations.ts (수정된 내용)
 
+import * as dotenv from 'dotenv';
+dotenv.config({ path: '.env.local' });
+
+// 'db' 폴더 대신 'db/index.ts' 파일을 명시적으로 임포트!
+// 'db/schema' 폴더 대신 'db/schema.ts' 파일을 명시적으로 임포트!
 import { migrate } from 'drizzle-orm/neon-http/migrator';
-import { db } from '@/db';
-import * as schema from '@/db/schema';
+import { db } from '../db/index'; // <-- 여기를 수정!
+import * as schema from '../db/schema'; // <-- 여기를 수정!
 
 async function runMigrations() {
   if (!process.env.DATABASE_URL) {
@@ -13,7 +16,6 @@ async function runMigrations() {
   }
   try {
     console.log('Starting migrations...');
-    // migrate 함수는 migrationsFolder와 db 인스턴스를 받습니다. schemas는 이제 필요하지 않을 수 있습니다.
     await migrate(db, { migrationsFolder: './drizzle' });
     console.log('Migrations finished successfully!');
   } catch (error) {

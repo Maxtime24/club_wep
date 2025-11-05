@@ -1,0 +1,42 @@
+{
+  "name": "my-ai-lab-homepage",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "db:generate": "drizzle-kit generate --config drizzle.config.mjs",
+    "db:migrate": "ts-node -r tsconfig-paths/register -r dotenv/config ./src/run-migrations.ts",
+    "db:seed": "ts-node -r tsconfig-paths/register -r dotenv/config ./src/seed.ts"
+  },
+  "dependencies": {
+    "@neondatabase/serverless": "^0.9.0",
+    "@supabase/supabase-js": "^2.79.0",
+    "drizzle-orm": "^0.30.7",
+    "next": "14.2.3",
+    "react": "^18",
+    "react-dom": "^18",
+    "react-intersection-observer": "^9.10.2",
+    "react-quill": "^2.0.0",
+    "react-slick": "^0.30.2",
+    "slick-carousel": "^1.8.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "@types/react-slick": "^0.23.13",
+    "autoprefixer": "^10.4.21",
+    "dotenv": "^16.4.5",
+    "drizzle-kit": "^0.21.0",
+    "eslint": "^8",
+    "eslint-config-next": "14.2.3",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^3.4.18",
+    "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5"
+  }
+}

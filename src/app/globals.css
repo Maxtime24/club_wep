@@ -1,0 +1,67 @@
+/* === 1. Tailwind 불러오기 (항상 최상단) === */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* === 2. 외부 CSS 불러오기 === */
+@import "slick-carousel/slick/slick.css";
+@import "slick-carousel/slick/slick-theme.css";
+
+/* === 3. 폰트 선언 === */
+@font-face {
+  font-family: 'NexonLv1Gothic';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv1 Gothic OTF Light.woff') format('woff');
+  font-weight: 300;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'NexonLv1Gothic';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv1 Gothic OTF.woff') format('woff');
+  font-weight: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'NexonLv1Gothic';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/NEXON Lv1 Gothic OTF Bold.woff') format('woff');
+  font-weight: 700;
+  font-display: swap;
+}
+
+/* === 4. 커스텀 애니메이션 === */
+@keyframes directBounceIn {
+  0% { transform: translateY(100%) scale(0.5); opacity: 0; }
+  60% { transform: translateY(-10%) scale(1.1); opacity: 1; }
+  80% { transform: translateY(5%) scale(0.95); }
+  100% { transform: translateY(0%) scale(1); opacity: 1; }
+}
+
+.animate-direct-bounce-in {
+  animation: directBounceIn 2s ease-out forwards;
+}
+
+.initial-hidden-below {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+/* === 5. 컬러 및 테마 설정 === */
+:root {
+  --background: #ffffff;
+  --foreground: #000000;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #ffffff;
+    --foreground: #000000;
+  }
+}
+
+/* === 6. 기본 폰트와 배경 === */
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: 'NexonLv1Gothic', Arial, Helvetica, sans-serif;
+}

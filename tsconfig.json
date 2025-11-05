@@ -1,0 +1,39 @@
+{
+  "compilerOptions": {
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext", // 혹은 "NodeNext" (Next.js 14부터 NodeNext 권장)
+    "moduleResolution": "bundler", // 혹은 "NodeNext" (Next.js 14부터 NodeNext 권장)
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "paths": {
+  "@/*": ["./src/*"],
+  "@/lib/*": ["./lib/*"],
+  "@/db": ["./db/index.ts"],
+  "@/db/*": ["./db/*"],
+  "@/components/*": ["./src/components/*"],
+  "@/data/*": ["./data/*"]
+},
+    "baseUrl": "."
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "drizzle.config.mjs", // drizzle-kit 설정 파일 포함
+    "db/**/*.ts" // db 폴더 안의 모든 ts 파일 포함
+, "next.config.js"  ],
+  "exclude": ["node_modules"]
+}

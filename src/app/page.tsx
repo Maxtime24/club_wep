@@ -157,7 +157,7 @@ export default function Home() {
       ref={aboutTitleRef}
       className={`transition-all duration-1000 ease-out ${
         aboutTitleInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'
-      } text-6xl text-black font-bold text-center mb-6`}
+      } text-6xl text-black font-bold text-center pt-20 pb-5`}
     >
       Activities
     </h1>
@@ -177,7 +177,7 @@ export default function Home() {
         />
       </div>
     </div>
-    <p className="text-black leading-[2rem] md:leading-[3rem] text-lg md:text-3xl font-[GMarketSans] font-bold text-center">
+    <p className="text-black leading-[2rem] md:leading-[3rem] text-lg md:text-3xl font-[GMarketSans] font-bold text-center p-10">
       계산고등학교 AI 디지털 연구소는 AI, 라즈베리파이, 마이크로비트<br />
       자율주행 자동차, 유니티, 웹 실무를 강사를 초청해 아이들에게 가르치고<br />
       이후 개인 프로젝트까지 확장하여 아이들이 직접 응용하고 사용할 수 있도록<br />

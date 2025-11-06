@@ -102,15 +102,15 @@ export default function Home() {
             ref={mainTitleRef}
             className={`transition-all duration-1000 ease-out ${
               mainTitleInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'
-            } text-5xl md:text-6xl lg:text-7xl font-extrabold text-white mb-4 animate-pulse`}
+            } text-10xl md:text-10xl lg:text-8xl font-[foot-bal] text-white mb-2 animate-pulse`}
           >
-            GYSAN HIGH SCHOOL<br />
+            GYESAN HIGH SCHOOL<br />
             AI DIGITAL LAB
           </div>
           <p
             className={`transition-all duration-1000 ease-out delay-300 ${
               mainTitleInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'
-            } text-xl md:text-3xl text-gray-200`}
+            } text-xl md:text-3xl text-gray-200 font-[GMarketSans]`}
           >
             계산고등학교 AI 디지털 연구소
           </p>
@@ -120,10 +120,7 @@ export default function Home() {
         <div className="bg-stone-900 py-12 md:py-20">
           <section className="container mx-auto p-8">
             <h1
-              ref={aboutTitleRef}
-              className={`transition-all duration-1000 ease-out ${
-                aboutTitleInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'
-              } text-5xl text-white font-bold text-center mb-6`}
+              className={`text-5xl text-white font-bold text-center mb-6`}
             >
               About
               <span className="inline-block text-blue-500 font-bold text-6xl">
@@ -139,10 +136,10 @@ export default function Home() {
             <div
               ref={aboutContentRef}
               className={`transition-all duration-1000 ease-out delay-200 ${
-                aboutContentInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-1'
+                aboutContentInView ? 'opacity-100 translate-y-5' : 'opacity-0 translate-y-5'
               } text-center`}
             >
-              <p className="text-white text-lg md:text-3xl font-[NexonLv1Gothic] leading-relaxed">
+              <p className="text-white text-lg md:text-3xl font-[GMarketSans] leading-[2rem] md:leading-[3rem]">
                 계산고등학교 AI 디지털 연구소는 AI 이외에도 여러 활동을 하며<br />
                 학교에 제한하지 않고 여러 디지털과 접목시켜 여러 봉사활동을<br />
                 나가며 더욱 창의적이고 진보적인 활동을 하고 이를 통해 학생<br />
@@ -152,41 +149,43 @@ export default function Home() {
           </section>
         </div>
 
-        {/* Activities 섹션 */}
-        <div className="bg-yellow-300/90 bg-opacity-70 py-12 md:py-20">
-          <section className="container mx-auto p-10">
-            <h1
-              ref={aboutTitleRef}
-              className={`transition-all duration-1000 ease-out ${
-                aboutTitleInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'
-              } text-6xl text-black font-bold text-center mb-6`}
-            >
-              Activities
-            </h1>
-            <div className="text-center mt-8 p-10">
-              <div
-                ref={aboutContentRef}
-                className={`transition-all duration-1000 ease-out delay-300 ${
-                  aboutContentInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'
-                } text-center`}
-              >
-                <Image
-                  src="/images/bg2.jpg"
-                  alt="Activities of AI Digital Laboratory"
-                  width={1000}
-                  height={450}
-                  className="mx-auto rounded-lg shadow-lg"
-                />
-              </div>
-            </div>
-            <p className="text-black text-lg md:text-3xl font-[NexonLv1Gothic] leading-relaxed text-center">
-              계산고등학교 AI 디지털 연구소는 AI, 라즈베리파이, 마이크로비트<br />
-              자율주행 자동차, 유니티, 웹 실무를 강사를 초청해 아이들에게 가르치고<br />
-              이후 개인 프로젝트까지 확장하여 아이들이 직접 응용하고 사용할 수 있도록<br />
-              돕고, 더욱 더 프로그래밍에 흥미를 가지도록 돕습니다.<br />
-            </p>
-          </section>
-        </div>
+       <div
+  className="bg-[url('/images/background.png')] bg-cover bg-center bg-no-repeat py-20 md:py-50"
+>
+  <section className="container mx-auto p-10 bg-stone-300/70 rounded-lg">
+    <h1
+      ref={aboutTitleRef}
+      className={`transition-all duration-1000 ease-out ${
+        aboutTitleInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'
+      } text-6xl text-black font-bold text-center mb-6`}
+    >
+      Activities
+    </h1>
+    <div className="text-center mt-8 p-10">
+      <div
+        ref={aboutContentRef}
+        className={`transition-all duration-1000 ease-out delay-300 ${
+          aboutContentInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'
+        } text-center`}
+      >
+        <Image
+          src="/images/bg2.jpg"
+          alt="Activities of AI Digital Laboratory"
+          width={1000}
+          height={450}
+          className="mx-auto rounded-lg shadow-lg"
+        />
+      </div>
+    </div>
+    <p className="text-black leading-[2rem] md:leading-[3rem] text-lg md:text-3xl font-[GMarketSans] font-bold text-center">
+      계산고등학교 AI 디지털 연구소는 AI, 라즈베리파이, 마이크로비트<br />
+      자율주행 자동차, 유니티, 웹 실무를 강사를 초청해 아이들에게 가르치고<br />
+      이후 개인 프로젝트까지 확장하여 아이들이 직접 응용하고 사용할 수 있도록<br />
+      돕고, 더욱 더 프로그래밍에 흥미를 가지도록 돕습니다.<br />
+    </p>
+  </section>
+</div>
+
 
         {/* Top 3 Projects 섹션 (DB에서 가져오기) */}
         <div className="bg-stone-900 bg-opacity-70 py-12 md:py-20">

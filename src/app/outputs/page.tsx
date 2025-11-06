@@ -52,13 +52,13 @@ export default function OutputsPage() {
   }, [])
 
   return (
-    <div className="min-h-screen bg-yellow-300/90 text-white">
+    <div className="min-h-screen bg-[url('/images/background.png')] bg-cover bg-center bg-no-repeat text-white">
       <div className="pt-24 md:pt-28">
         <section className="container mx-auto p-8">
           <h1
             ref={titleRef}
             className={`
-              text-4xl md:text-5xl font-extrabold text-center text-blue-500 mb-10
+              text-4xl md:text-5xl font-extrabold text-center text-white mb-10
               transition-all duration-1000 ease-out
               ${titleInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}
             `}
@@ -77,7 +77,7 @@ export default function OutputsPage() {
 
               return (
                 <AnimatedDiv key={project.id} index={index} delay={100}>
-                  <div className="bg-stone-800 rounded-lg shadow-xl p-6 flex flex-col items-center text-center h-full">
+                  <div className="bg-gray-300 rounded-lg shadow-xl p-6 flex flex-col items-center text-center h-full">
                     <div className="relative w-full h-48 mb-4 rounded-md overflow-hidden">
                       {firstImage ? (
                         <Image
@@ -94,7 +94,7 @@ export default function OutputsPage() {
                       )}
                     </div>
 
-                    <h3 className="text-2xl font-bold text-white mb-2">{project.title}</h3>
+                    <h3 className="text-2xl font-bold text-black mb-2">{project.title}</h3>
                     <p className="text-gray-300 text-sm mb-4 line-clamp-3 flex-grow">
                       {project.description}
                     </p>

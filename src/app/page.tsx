@@ -136,7 +136,7 @@ export default function Home() {
             <div
               ref={aboutContentRef}
               className={`transition-all duration-1000 ease-out delay-200 ${
-                aboutContentInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+                aboutContentInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3'
               } text-center`}
             >
               <p className="text-white text-lg md:text-3xl font-[GMarketSans] leading-[2rem] md:leading-[3rem]">

@@ -110,7 +110,7 @@ export default function Home() {
           <p
             className={`transition-all duration-1000 ease-out delay-300 ${
               mainTitleInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'
-            } text-xl md:text-3xl text-gray-200 font-[GMarketSans]`}
+            } text-xl md:text-3xl text-gray-200 font-[Pretendard]`}
           >
             계산고등학교 AI 디지털 연구소
           </p>
@@ -139,7 +139,7 @@ export default function Home() {
                 aboutContentInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'
               } text-center`}
             >
-              <p className="text-white text-lg md:text-3xl font-[GMarketSans] leading-[2rem] md:leading-[3rem]">
+              <p className="text-white text-lg md:text-3xl font-[Pretendard] leading-[2rem] md:leading-[3rem]">
                 계산고등학교 AI 디지털 연구소는 AI 이외에도 여러 활동을 하며<br />
                 학교에 제한하지 않고 여러 디지털과 접목시켜 여러 봉사활동을<br />
                 나가며 더욱 창의적이고 진보적인 활동을 하고 이를 통해 학생<br />
@@ -177,7 +177,7 @@ export default function Home() {
         />
       </div>
     </div>
-    <p className="text-black leading-[2rem] md:leading-[3rem] text-lg md:text-3xl font-[GMarketSans] font-bold text-center p-10">
+    <p className="text-black leading-[2rem] md:leading-[3rem] text-lg md:text-3xl font-[Pretendard] font-bold text-center p-10">
       계산고등학교 AI 디지털 연구소는 AI, 라즈베리파이, 마이크로비트<br />
       자율주행 자동차, 유니티, 웹 실무를 강사를 초청해 아이들에게 가르치고<br />
       이후 개인 프로젝트까지 확장하여 아이들이 직접 응용하고 사용할 수 있도록<br />

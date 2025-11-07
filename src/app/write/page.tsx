@@ -13,6 +13,7 @@ export default function WritePage() {
   const [content, setContent] = useState('')
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
+  const [postType, setPostType] = useState('post')  // 'post' 또는 'project' 선택 상태
 
   const handleSubmit = async () => {
     if (!title || !content || !author) {
@@ -21,8 +22,13 @@ export default function WritePage() {
     }
     setLoading(true)
 
-    const { error } = await supabase.from('projects').insert([
-      { title, content, author }
+    const { error } = await supabase.from('posts').insert([
+      {
+        title,
+        content,
+        author,
+        type: postType  // 추가된 타입 컬럼에 postType 값 저장
+      }
     ])
 
     if (error) {
@@ -38,7 +44,20 @@ export default function WritePage() {
 
   return (
     <div className="max-w-3xl mx-auto p-8 mt-12">
-      <h1 className="text-3xl font-bold mb-6 text-blue-600">새 프로젝트 작성</h1>
+      <h1 className="text-3xl font-bold mb-6 text-blue-600">글 작성</h1>
+
+      {/* 포스트 타입 선택 */}
+      <div className="mb-4">
+        <label className="mr-2">글 타입을 선택하세요:</label>
+        <select
+          value={postType}
+          onChange={(e) => setPostType(e.target.value)}
+          className="p-2 border border-gray-300 rounded"
+        >
+          <option value="post">게시물</option>
+          <option value="project">프로젝트</option>
+        </select>
+      </div>
 
       <input
         type="text"
@@ -80,3 +99,4 @@ export default function WritePage() {
     </div>
   )
 }
+

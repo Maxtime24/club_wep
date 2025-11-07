@@ -5,7 +5,7 @@ import Link from 'next/link';
 
 export default function Header() {
   return (
-    <header className="fixed top-0 left-0 w-full bg-blue-500 bg-opacity-70 shadow p-4 z-20">
+    <header className="fixed top-0 left-0 w-full bg-[linear-gradient(110.8246056093817deg,rgba(243,72,104,1)_15.152343635757763%,rgba(242,71,104,1)_15.152343635757763%,rgba(158,0,236,1)_86.8710970133543%)] bg-opacity-70 shadow p-4 z-20">
       <nav className="container mx-auto flex justify-between items-center">
         <Link href="/" className="text-2xl font-bold text-white">
           AI DIGITAL LABORATORY

@@ -58,15 +58,23 @@ export default function Home() {
   }
 
   useEffect(() => {
-    fetchTopProjects();
-    const channel = supabase
-      .channel('realtime:projects')
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'projects' }, () => {
-        fetchTopProjects();
-      })
-      .subscribe();
-    return () => supabase.removeChannel(channel);
-  }, []);
+  const fetchData = async () => {
+    await fetchTopProjects();
+  };
+  fetchData();
+
+  const channel = supabase
+    .channel('realtime:projects')
+    .on('postgres_changes', { event: '*', schema: 'public', table: 'projects' }, () => {
+      fetchTopProjects();
+    })
+    .subscribe();
+
+  return () => {
+    supabase.removeChannel(channel);
+  };
+}, []);
+
 
   return (
     <div className="relative min-h-screen bg-black text-white overflow-x-hidden">

@@ -28,8 +28,8 @@ type ProjectType = {
 export default function Home() {
   const [topProjects, setTopProjects] = useState<ProjectType[]>([]);
 
-  const { ref: mainTitleRef, inView: mainTitleInView } = useInView({ triggerOnce: false, threshold: 0.5 });
-  const { ref: aboutTitleRef, inView: aboutTitleInView } = useInView({ triggerOnce: false, threshold: 1 });
+  const { ref: mainTitleRef, inView: mainTitleInView } = useInView({ triggerOnce: false, threshold: 0.2 });
+  const { ref: aboutTitleRef, inView: aboutTitleInView } = useInView({ triggerOnce: false, threshold: 0.2 });
   const { ref: aboutContentRef, inView: aboutContentInView } = useInView({ triggerOnce: false, threshold: 0.2 });
   const { ref: top3TitleRef, inView: top3TitleInView } = useInView({ triggerOnce: false, threshold: 0.2 });
 
@@ -165,7 +165,7 @@ export default function Home() {
       <div
         ref={aboutContentRef}
         className={`transition-all duration-1000 ease-out delay-300 ${
-          aboutContentInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+          aboutContentInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'
         } text-center`}
       >
         <Image

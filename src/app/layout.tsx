@@ -4,10 +4,11 @@ import Footer from '@/components/common/footer'
 import React from 'react'
 import type { Metadata } from 'next'
 
-export const metadata: Metadata = {
+export const metadata = {
   title: {
-    default: 'AI DIGITAL LAB'
-  }
+    default: 'AI DIGITAL LAB',
+    template: '%s | AI DIGITAL LAB',
+  },
 }
 
 export default function RootLayout({

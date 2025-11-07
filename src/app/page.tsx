@@ -28,7 +28,7 @@ export default function Home() {
   const { ref: mainTitleRef, inView: mainTitleInView } = useInView({ triggerOnce: false, threshold: 0.3 });
   const { ref: aboutTitleRef, inView: aboutTitleInView } = useInView({ triggerOnce: false, threshold: 0.3, rootMargin: '-100px 0px' });
   const { ref: aboutTextRef, inView: aboutTextInView } = useInView({ triggerOnce: false, threshold: 0.3, rootMargin: '-120px 0px' });
-  const { ref: activitiesRef, inView: activitiesInView } = useInView({ triggerOnce: false, threshold: 0.3, rootMargin: '-50px 0px' });
+  const { ref: activitiesRef, inView: activitiesInView } = useInView({ triggerOnce: false, threshold: 0.2 });
   const { ref: top3TitleRef, inView: top3TitleInView } = useInView({ triggerOnce: false, threshold: 0.3, rootMargin: '-120px 0px' });
 
   // --- react-slick 설정 ---
@@ -111,7 +111,7 @@ export default function Home() {
           </div>
           <p
             className={`transition-all duration-1000 ease-out delay-300 ${
-              mainTitleInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+              mainTitleInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'
             } text-xl md:text-3xl text-gray-200 font-[Pretendard]`}
           >
             계산고등학교 AI 디지털 연구소

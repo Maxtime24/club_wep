@@ -28,8 +28,11 @@ export default function Home() {
   const { ref: mainTitleRef, inView: mainTitleInView } = useInView({ triggerOnce: false, threshold: 0.3 });
   const { ref: aboutTitleRef, inView: aboutTitleInView } = useInView({ triggerOnce: false, threshold: 0.3, rootMargin: '-100px 0px' });
   const { ref: aboutTextRef, inView: aboutTextInView } = useInView({ triggerOnce: false, threshold: 0.3, rootMargin: '-120px 0px' });
-  const { ref: activitiesRef, inView: activitiesInView } = useInView({ triggerOnce: false, threshold: 0.2 });
+  const { ref: activitiesTitleRef, inView: activitiesTitleInView } = useInView({ triggerOnce: false, threshold: 0.3, rootMargin: '-150px 0px' });
+  const { ref: activitiesImageRef, inView: activitiesImageInView } = useInView({ triggerOnce: false, threshold: 0.3, rootMargin: '-150px 0px' });
+  const { ref: activitiesTextRef, inView: activitiesTextInView } = useInView({ triggerOnce: false, threshold: 0.3, rootMargin: '-150px 0px' });
   const { ref: top3TitleRef, inView: top3TitleInView } = useInView({ triggerOnce: false, threshold: 0.3, rootMargin: '-120px 0px' });
+  const { ref: top3ButtonRef, inView: top3ButtonInView } = useInView({ triggerOnce: false, threshold: 0.3, rootMargin: '-100px 0px' });
 
   // --- react-slick 설정 ---
   const settings = {
@@ -58,23 +61,22 @@ export default function Home() {
   }
 
   useEffect(() => {
-  const fetchData = async () => {
-    await fetchTopProjects();
-  };
-  fetchData();
+    const fetchData = async () => {
+      await fetchTopProjects();
+    };
+    fetchData();
 
-  const channel = supabase
-    .channel('realtime:projects')
-    .on('postgres_changes', { event: '*', schema: 'public', table: 'projects' }, () => {
-      fetchTopProjects();
-    })
-    .subscribe();
+    const channel = supabase
+      .channel('realtime:projects')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'projects' }, () => {
+        fetchTopProjects();
+      })
+      .subscribe();
 
-  return () => {
-    supabase.removeChannel(channel);
-  };
-}, []);
-
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, []);
 
   return (
     <div className="relative min-h-screen bg-black text-white overflow-x-hidden">
@@ -153,17 +155,18 @@ export default function Home() {
         >
           <section className="container mx-auto p-10 bg-stone-300/70 rounded-lg">
             <h1
-              ref={activitiesRef}
+              ref={activitiesTitleRef}
               className={`transition-all duration-1000 ease-out ${
-                activitiesInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+                activitiesTitleInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
               } text-6xl text-black font-bold text-center pt-10 pb-6`}
             >
               Activities
             </h1>
 
             <div
+              ref={activitiesImageRef}
               className={`transition-all duration-1000 ease-out delay-300 ${
-                activitiesInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+                activitiesImageInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
               } text-center mt-10`}
             >
               <Image
@@ -176,8 +179,9 @@ export default function Home() {
             </div>
 
             <p
+              ref={activitiesTextRef}
               className={`transition-all duration-1000 ease-out delay-500 ${
-                activitiesInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+                activitiesTextInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
               } text-black text-lg md:text-2xl font-[Pretendard] font-semibold text-center p-10 leading-relaxed`}
             >
               AI, 라즈베리파이, 마이크로비트, 자율주행, 유니티, 웹 실무 등<br />
@@ -212,8 +216,9 @@ export default function Home() {
             </div>
 
             <div
+              ref={top3ButtonRef}
               className={`transition-all duration-1000 ease-out delay-500 ${
-                top3TitleInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+                top3ButtonInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
               } text-center mt-12`}
             >
               <Link href="/outputs">

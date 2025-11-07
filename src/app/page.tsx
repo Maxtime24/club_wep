@@ -28,10 +28,10 @@ type ProjectType = {
 export default function Home() {
   const [topProjects, setTopProjects] = useState<ProjectType[]>([]);
 
-  const { ref: mainTitleRef, inView: mainTitleInView } = useInView({ triggerOnce: false, threshold: 0.2 });
-  const { ref: aboutTitleRef, inView: aboutTitleInView } = useInView({ triggerOnce: false, threshold: 0.2 });
-  const { ref: aboutContentRef, inView: aboutContentInView } = useInView({ triggerOnce: false, threshold: 0.2 });
-  const { ref: top3TitleRef, inView: top3TitleInView } = useInView({ triggerOnce: false, threshold: 0.2 });
+  const { ref: mainTitleRef, inView: mainTitleInView } = useInView({ triggerOnce: false, threshold: 0.2 , rootMargin: '-50px 0px'});
+  const { ref: aboutTitleRef, inView: aboutTitleInView } = useInView({ triggerOnce: false, threshold: 0.2, rootMargin: '-50px 0px' });
+  const { ref: aboutContentRef, inView: aboutContentInView } = useInView({ triggerOnce: false, threshold: 0.2, rootMargin: '-50px 0px' });
+  const { ref: top3TitleRef, inView: top3TitleInView } = useInView({ triggerOnce: false, threshold: 0.2, rootMargin: '-50px 0px' });
 
   // --- react-slick 설정 ---
   const settings = {
@@ -101,7 +101,7 @@ export default function Home() {
           <div
             ref={mainTitleRef}
             className={`transition-all duration-1000 ease-out ${
-              mainTitleInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'
+              mainTitleInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'
             } text-10xl md:text-10xl lg:text-8xl font-[foot-bal] text-white mb-2 animate-pulse`}
           >
             GYESAN HIGH SCHOOL<br />
@@ -109,7 +109,7 @@ export default function Home() {
           </div>
           <p
             className={`transition-all duration-1000 ease-out delay-300 ${
-              mainTitleInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'
+              mainTitleInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'
             } text-xl md:text-3xl text-gray-200 font-[Pretendard]`}
           >
             계산고등학교 AI 디지털 연구소
@@ -136,7 +136,7 @@ export default function Home() {
             <div
               ref={aboutContentRef}
               className={`transition-all duration-1000 ease-out delay-200 ${
-                aboutContentInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'
+                aboutContentInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'
               } text-center`}
             >
               <p className="text-white text-lg md:text-3xl font-[Pretendard] leading-[2rem] md:leading-[3rem]">
@@ -156,7 +156,7 @@ export default function Home() {
     <h1
       ref={aboutTitleRef}
       className={`transition-all duration-1000 ease-out ${
-        aboutTitleInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'
+        aboutTitleInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'
       } text-6xl text-black font-bold text-center pt-20 pb-5`}
     >
       Activities
@@ -165,7 +165,7 @@ export default function Home() {
       <div
         ref={aboutContentRef}
         className={`transition-all duration-1000 ease-out delay-300 ${
-          aboutContentInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'
+          aboutContentInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'
         } text-center`}
       >
         <Image
@@ -193,7 +193,7 @@ export default function Home() {
             <h2
               ref={top3TitleRef}
               className={`transition-all duration-1000 ease-out ${
-                top3TitleInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'
+                top3TitleInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'
               } text-3xl md:text-4xl font-bold text-center text-white mb-10`}
             >
               RECENT PROJECT
@@ -214,7 +214,7 @@ export default function Home() {
 
             <div
               className={`transition-all duration-1000 ease-out delay-500 ${
-                top3TitleInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'
+                top3TitleInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'
               } text-center mt-12`}
             >
               <Link href="/outputs">

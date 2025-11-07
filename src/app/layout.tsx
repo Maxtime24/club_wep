@@ -4,12 +4,10 @@ import Footer from '@/components/common/footer'
 import React from 'react'
 import type { Metadata } from 'next'
 
-// 모든 페이지의 기본 title, 템플릿 지정
 export const metadata: Metadata = {
   title: {
-    default: 'AI DIGITAL LAB', // 기본 제목
-  },
-  description: 'AI DIGITAL LAB',
+    default: 'AI DIGITAL LAB'
+  }
 }
 
 export default function RootLayout({

@@ -9,6 +9,9 @@ export const metadata = {
     default: 'AI DIGITAL LAB',
     template: '%s | AI DIGITAL LAB',
   },
+  icons: {
+    icon: "../../public/images/logo.jpg",
+  },
 }
 
 export default function RootLayout({

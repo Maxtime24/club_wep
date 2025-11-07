@@ -11,7 +11,7 @@ export default function Header() {
           AI DIGITAL LABORATORY
         </Link>
         <ul className="flex space-x-4">
-          <li><Link href="/outputs" className="text-gray-300 hover:text-white font-[Pretendard] font-bold">산출물</Link></li>
+          <li><Link href="/outputs" className="text-gray-300 hover:text-white font-[Pretendard] font-bold">프로젝트</Link></li>
           <li><Link href="/write" className="text-gray-300 hover:text-white font-[Pretendard] font-bold pl-15">글 쓰기</Link></li>
         </ul>
       </nav>

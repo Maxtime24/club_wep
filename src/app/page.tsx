@@ -28,10 +28,10 @@ type ProjectType = {
 export default function Home() {
   const [topProjects, setTopProjects] = useState<ProjectType[]>([]);
 
-  const { ref: mainTitleRef, inView: mainTitleInView } = useInView({ triggerOnce: false, threshold: 0.2 , rootMargin: '-50px 0px'});
-  const { ref: aboutTitleRef, inView: aboutTitleInView } = useInView({ triggerOnce: false, threshold: 0.2, rootMargin: '-50px 0px' });
-  const { ref: aboutContentRef, inView: aboutContentInView } = useInView({ triggerOnce: false, threshold: 0.2, rootMargin: '-50px 0px' });
-  const { ref: top3TitleRef, inView: top3TitleInView } = useInView({ triggerOnce: false, threshold: 0.2, rootMargin: '-50px 0px' });
+  const { ref: mainTitleRef, inView: mainTitleInView } = useInView({ triggerOnce: false, threshold: 0.3 , rootMargin: '-200px 0px'});
+  const { ref: aboutTitleRef, inView: aboutTitleInView } = useInView({ triggerOnce: false, threshold: 0.3, rootMargin: '-200px 0px' });
+  const { ref: aboutContentRef, inView: aboutContentInView } = useInView({ triggerOnce: false, threshold: 0.3, rootMargin: '-200px 0px' });
+  const { ref: top3TitleRef, inView: top3TitleInView } = useInView({ triggerOnce: false, threshold: 0.3, rootMargin: '-200px 0px' });
 
   // --- react-slick 설정 ---
   const settings = {

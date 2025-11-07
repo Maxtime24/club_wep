@@ -28,7 +28,7 @@ export default function Home() {
   const { ref: mainTitleRef, inView: mainTitleInView } = useInView({ triggerOnce: false, threshold: 0.3 });
   const { ref: aboutTitleRef, inView: aboutTitleInView } = useInView({ triggerOnce: false, threshold: 0.3, rootMargin: '-100px 0px' });
   const { ref: aboutTextRef, inView: aboutTextInView } = useInView({ triggerOnce: false, threshold: 0.3, rootMargin: '-120px 0px' });
-  const { ref: activitiesRef, inView: activitiesInView } = useInView({ triggerOnce: false, threshold: 0.3, rootMargin: '-120px 0px' });
+  const { ref: activitiesRef, inView: activitiesInView } = useInView({ triggerOnce: false, threshold: 0.3, rootMargin: '-50px 0px' });
   const { ref: top3TitleRef, inView: top3TitleInView } = useInView({ triggerOnce: false, threshold: 0.3, rootMargin: '-120px 0px' });
 
   // --- react-slick 설정 ---

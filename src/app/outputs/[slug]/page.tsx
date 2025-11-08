@@ -8,8 +8,8 @@ export const dynamic = 'force-dynamic' // SSR 캐시 방지
 export default async function ProjectDetailPage({ params }: { params: { slug: string } }) {
   const { slug } = params
 
-  const { data: post, error } = await supabase
-    .from('posts')
+  const { data: project, error } = await supabase
+    .from('projects')
     .select('*')
     .eq('id', Number(slug)) // id가 int4이므로 Number 변환 유지
     .single()
@@ -20,7 +20,7 @@ export default async function ProjectDetailPage({ params }: { params: { slug: st
     notFound()
   }
 
-  if (!post) notFound()
+  if (!project) notFound()
 
   return (
     <div className="min-h-screen bg-[url('/images/background.png')] bg-cover bg-center bg-no-repeat text-white p-8 pt-24 md:pt-28">
@@ -29,18 +29,18 @@ export default async function ProjectDetailPage({ params }: { params: { slug: st
           <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
           </svg>
-          포스트 목록으로 돌아가기
+          프로젝트 목록으로 돌아가기
         </Link>
 
         <h1 className="text-4xl md:text-5xl font-extrabold text-center text-blue-500 mb-8 mt-4">
-          {post.title}
+          {project.title}
         </h1>
 
-        {post.image && (
+        {project.image && (
           <div className="relative w-full aspect-video rounded-lg overflow-hidden mb-8 shadow-xl">
             <Image
-              src={post.image}
-              alt={post.title}
+              src={project.image}
+              alt={project.title}
               fill
               style={{ objectFit: 'cover' }}
               className="rounded-lg"
@@ -51,12 +51,12 @@ export default async function ProjectDetailPage({ params }: { params: { slug: st
 
         <div
           className="text-lg text-black leading-relaxed mb-6"
-          dangerouslySetInnerHTML={{ __html: post.content }}
+          dangerouslySetInnerHTML={{ __html: project.content }}
         ></div>
 
-        {post.tags && Array.isArray(post.tags) && (
+        {project.tags && Array.isArray(project.tags) && (
           <div className="flex flex-wrap justify-center gap-3 mb-8">
-            {post.tags.map((tag: string, i: number) => (
+            {project.tags.map((tag: string, i: number) => (
               <span
                 key={i}
                 className="bg-blue-600 text-white text-sm font-semibold px-3 py-1 rounded-full shadow"
@@ -67,15 +67,15 @@ export default async function ProjectDetailPage({ params }: { params: { slug: st
           </div>
         )}
 
-        {post.link && (
+        {project.link && (
           <div className="text-center mt-8">
             <a
-              href={post.link}
+              href={project.link}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-block bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-6 rounded-full text-lg shadow-lg transition-transform transform hover:scale-105 duration-300"
             >
-              포스트 보러 가기
+              프로젝트 보러 가기
             </a>
           </div>
         )}

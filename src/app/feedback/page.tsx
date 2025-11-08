@@ -6,13 +6,13 @@ import { notFound } from 'next/navigation'
 export default async function ProjectDetailPage({ params }: { params: { slug: string } }) {
   const { slug } = params
 
-  const { data: project, error } = await supabase
+  const { data: post, error } = await supabase
     .from('posts')
     .select('*')
     .eq('id', Number(slug)) // id가 serial인 경우 Number로 변환
     .single()
 
-  if (error || !project) {
+  if (error || !post) {
     notFound()
   }
 
@@ -27,14 +27,14 @@ export default async function ProjectDetailPage({ params }: { params: { slug: st
         </Link>
 
         <h1 className="text-4xl md:text-5xl font-extrabold text-center text-blue-500 mb-8 mt-4">
-          {project.title}
+          {post.title}
         </h1>
 
-        {project.image && (
+        {post.image && (
           <div className="relative w-full aspect-video rounded-lg overflow-hidden mb-8 shadow-xl">
             <Image
-              src={project.image}
-              alt={project.title}
+              src={post.image}
+              alt={post.title}
               fill
               style={{ objectFit: 'cover' }}
               className="rounded-lg"
@@ -45,12 +45,12 @@ export default async function ProjectDetailPage({ params }: { params: { slug: st
 
         <div
   className="text-lg text-black leading-relaxed mb-6"
-  dangerouslySetInnerHTML={{ __html: project.content }}
+  dangerouslySetInnerHTML={{ __html: post.content }}
 ></div>
 
-        {project.tags && (
+        {post.tags && (
           <div className="flex flex-wrap justify-center gap-3 mb-8">
-            {project.tags.map((tag: string, i: number) => (
+            {post.tags.map((tag: string, i: number) => (
               <span key={i} className="bg-blue-600 text-white text-sm font-semibold px-3 py-1 rounded-full shadow">
                 {tag}
               </span>
@@ -58,10 +58,10 @@ export default async function ProjectDetailPage({ params }: { params: { slug: st
           </div>
         )}
 
-        {project.link && (
+        {post.link && (
           <div className="text-center mt-8">
             <a
-              href={project.link}
+              href={post.link}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-block bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-6 rounded-full text-lg shadow-lg transition-transform transform hover:scale-105 duration-300"

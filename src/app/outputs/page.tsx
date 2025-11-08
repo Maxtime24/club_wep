@@ -5,7 +5,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { useInView } from 'react-intersection-observer'
 import { supabase } from '@/lib/supabaseClient'
-import AnimatedDiv from '../../components/common/AnimatedDiv'
+import AnimatedDiv from '@/components/common/AnimatedDiv'
 
 // content에서 첫 번째 이미지 src 추출
 function extractFirstImage(content: string) {
@@ -20,7 +20,6 @@ export default function OutputsPage() {
     threshold: 0.1,
   })
 
-  // Supabase에서 데이터 불러오기
   async function fetchProjects() {
     const { data, error } = await supabase
       .from('projects')
@@ -31,7 +30,6 @@ export default function OutputsPage() {
     else setProjects(data || [])
   }
 
-  // 페이지 로드 시 및 실시간 구독 설정
   useEffect(() => {
     fetchProjects()
 
@@ -57,11 +55,9 @@ export default function OutputsPage() {
         <section className="container mx-auto p-8">
           <h1
             ref={titleRef}
-            className={`
-              text-4xl md:text-5xl font-extrabold text-center text-white mb-10
-              transition-all duration-1000 ease-out
-              ${titleInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}
-            `}
+            className={`text-4xl md:text-5xl font-extrabold text-center text-white mb-10 transition-all duration-1000 ease-out ${
+              titleInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'
+            }`}
           >
             Students&apos;s Projects
           </h1>
@@ -72,8 +68,12 @@ export default function OutputsPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {projects.map((project, index) => {
-              // content에서 첫 번째 이미지 추출
               const firstImage = project.image || extractFirstImage(project.content)
+              const description = project.content
+                ? project.content.replace(/<[^>]+>/g, '').slice(0, 100) + '...'
+                : '내용 없음'
+
+              const tags = Array.isArray(project.tags) ? project.tags : []
 
               return (
                 <AnimatedDiv key={project.id} index={index} delay={100}>
@@ -95,12 +95,10 @@ export default function OutputsPage() {
                     </div>
 
                     <h3 className="text-2xl font-bold text-black mb-2">{project.title}</h3>
-                    <p className="text-gray-300 text-sm mb-4 line-clamp-3 flex-grow">
-                      {project.description}
-                    </p>
+                    <p className="text-gray-300 text-sm mb-4 line-clamp-3 flex-grow">{description}</p>
 
                     <div className="flex flex-wrap justify-center gap-2 mb-4">
-                      {project.tags?.map((tag: string, tagIndex: number) => (
+                      {tags.map((tag: string, tagIndex: number) => (
                         <span
                           key={`${tag}-${tagIndex}`}
                           className="bg-blue-600 text-white text-xs font-semibold px-2.5 py-0.5 rounded-full"

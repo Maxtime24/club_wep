@@ -1,127 +1,84 @@
-'use client'
-
-import { useEffect, useState } from 'react'
-import Link from 'next/link'
-import Image from 'next/image'
-import { useInView } from 'react-intersection-observer'
 import { supabase } from '@/lib/supabaseClient'
-import AnimatedDiv from '@/components/common/AnimatedDiv'
+import Image from 'next/image'
+import Link from 'next/link'
+import { notFound } from 'next/navigation'
 
-// content에서 첫 번째 이미지 src 추출
-function extractFirstImage(content: string) {
-  const match = content.match(/<img[^>]+src="([^">]+)"/i)
-  return match ? match[1] : null
-}
+export const dynamic = 'force-dynamic' // SSR 캐시 방지
 
-export default function PostsPage() {
-  const [posts, setPosts] = useState<any[]>([])
-  const { ref: titleRef, inView: titleInView } = useInView({
-    triggerOnce: true,
-    threshold: 0.1,
-  })
+export default async function ProjectDetailPage({ params }: { params: { slug: string } }) {
+  const { slug } = params
 
-  // Supabase에서 posts 데이터 불러오기
-  async function fetchPosts() {
-    const { data, error } = await supabase
-      .from('posts')
-      .select('*')
-      .order('id', { ascending: true })
+  const { data: post, error } = await supabase
+    .from('posts')
+    .select('*')
+    .eq('id', Number(slug)) // id가 int4이므로 Number 변환 유지
+    .single()
 
-    if (error) console.error('Error loading posts:', error)
-    else setPosts(data || [])
+  // PGRST116은 "no rows returned" 에러이므로 무시
+  if (error && error.code !== 'PGRST116') {
+    console.error('Supabase error:', error)
+    notFound()
   }
 
-  useEffect(() => {
-    fetchPosts()
-
-    // 실시간 구독
-    const channel = supabase
-      .channel('realtime:posts')
-      .on(
-        'postgres_changes',
-        { event: '*', schema: 'public', table: 'posts' },
-        () => {
-          fetchPosts()
-        }
-      )
-      .subscribe()
-
-    return () => {
-      supabase.removeChannel(channel)
-    }
-  }, [])
+  if (!post) notFound()
 
   return (
-    <div className="min-h-screen bg-[url('/images/background.png')] bg-cover bg-center bg-no-repeat text-white">
-      <div className="pt-24 md:pt-28">
-        <section className="container mx-auto p-8">
-          <h1
-            ref={titleRef}
-            className={`text-4xl md:text-5xl font-extrabold text-center text-white mb-10 transition-all duration-1000 ease-out ${
-              titleInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'
-            }`}
-          >
-            Posts
-          </h1>
+    <div className="min-h-screen bg-[url('/images/background.png')] bg-cover bg-center bg-no-repeat text-white p-8 pt-24 md:pt-28">
+      <div className="container mx-auto max-w-7xl bg-gray-200/80 rounded-lg pl-20 pr-20 pb-20 md:pt-20">
+        <Link href="/post" className="text-blue-400 hover:text-blue-300 flex items-center mb-6">
+          <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+          </svg>
+          포스트 목록으로 돌아가기
+        </Link>
 
-          {posts.length === 0 && (
-            <p className="text-center text-gray-700">아직 등록된 포스트가 없습니다.</p>
-          )}
+        <h1 className="text-4xl md:text-5xl font-extrabold text-center text-blue-500 mb-8 mt-4">
+          {post.title}
+        </h1>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {posts.map((post, index) => {
-              const firstImage = post.image || extractFirstImage(post.content)
-              const description = post.content
-                ? post.content.replace(/<[^>]+>/g, '').slice(0, 100) + '...'
-                : '내용 없음'
-
-              const tags = Array.isArray(post.tags) ? post.tags : []
-
-              return (
-                <AnimatedDiv key={post.id} index={index} delay={100}>
-                  <div className="bg-gray-300 rounded-lg shadow-xl p-6 flex flex-col items-center text-center h-full">
-                    <div className="relative w-full h-48 mb-4 rounded-md overflow-hidden">
-                      {firstImage ? (
-                        <Image
-                          src={firstImage}
-                          alt={post.title}
-                          fill
-                          style={{ objectFit: 'cover' }}
-                          className="rounded-md"
-                        />
-                      ) : (
-                        <div className="bg-gray-500 w-full h-full flex items-center justify-center text-white">
-                          이미지 없음
-                        </div>
-                      )}
-                    </div>
-
-                    <h3 className="text-2xl font-bold text-black mb-2">{post.title}</h3>
-                    <p className="text-gray-300 text-sm mb-4 line-clamp-3 flex-grow">{description}</p>
-
-                    <div className="flex flex-wrap justify-center gap-2 mb-4">
-                      {tags.map((tag: string, tagIndex: number) => (
-                        <span
-                          key={`${tag}-${tagIndex}`}
-                          className="bg-blue-600 text-white text-xs font-semibold px-2.5 py-0.5 rounded-full"
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-
-                    <Link
-                      href={`/feedback/${post.id}`}
-                      className="mt-auto inline-block bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded transition-colors duration-300"
-                    >
-                      자세히 보기
-                    </Link>
-                  </div>
-                </AnimatedDiv>
-              )
-            })}
+        {post.image && (
+          <div className="relative w-full aspect-video rounded-lg overflow-hidden mb-8 shadow-xl">
+            <Image
+              src={post.image}
+              alt={post.title}
+              fill
+              style={{ objectFit: 'cover' }}
+              className="rounded-lg"
+              priority
+            />
           </div>
-        </section>
+        )}
+
+        <div
+          className="text-lg text-black leading-relaxed mb-6"
+          dangerouslySetInnerHTML={{ __html: project.content }}
+        ></div>
+
+        {post.tags && Array.isArray(post.tags) && (
+          <div className="flex flex-wrap justify-center gap-3 mb-8">
+            {post.tags.map((tag: string, i: number) => (
+              <span
+                key={i}
+                className="bg-blue-600 text-white text-sm font-semibold px-3 py-1 rounded-full shadow"
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+        )}
+
+        {post.link && (
+          <div className="text-center mt-8">
+            <a
+              href={project.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-6 rounded-full text-lg shadow-lg transition-transform transform hover:scale-105 duration-300"
+            >
+              포스트 보러 가기
+            </a>
+          </div>
+        )}
       </div>
     </div>
   )

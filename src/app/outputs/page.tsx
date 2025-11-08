@@ -13,33 +13,35 @@ function extractFirstImage(content: string) {
   return match ? match[1] : null
 }
 
-export default function OutputsPage() {
-  const [projects, setProjects] = useState<any[]>([])
+export default function PostsPage() {
+  const [posts, setPosts] = useState<any[]>([])
   const { ref: titleRef, inView: titleInView } = useInView({
     triggerOnce: true,
     threshold: 0.1,
   })
 
-  async function fetchProjects() {
+  // Supabase에서 posts 데이터 불러오기
+  async function fetchPosts() {
     const { data, error } = await supabase
-      .from('projects')
+      .from('posts')
       .select('*')
       .order('id', { ascending: true })
 
-    if (error) console.error('Error loading projects:', error)
-    else setProjects(data || [])
+    if (error) console.error('Error loading posts:', error)
+    else setPosts(data || [])
   }
 
   useEffect(() => {
-    fetchProjects()
+    fetchPosts()
 
+    // 실시간 구독
     const channel = supabase
-      .channel('realtime:projects')
+      .channel('realtime:posts')
       .on(
         'postgres_changes',
-        { event: '*', schema: 'public', table: 'projects' },
+        { event: '*', schema: 'public', table: 'posts' },
         () => {
-          fetchProjects()
+          fetchPosts()
         }
       )
       .subscribe()
@@ -59,30 +61,30 @@ export default function OutputsPage() {
               titleInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'
             }`}
           >
-            Students&apos;s Projects
+            Posts
           </h1>
 
-          {projects.length === 0 && (
-            <p className="text-center text-gray-700">아직 등록된 프로젝트가 없습니다.</p>
+          {posts.length === 0 && (
+            <p className="text-center text-gray-700">아직 등록된 포스트가 없습니다.</p>
           )}
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {projects.map((project, index) => {
-              const firstImage = project.image || extractFirstImage(project.content)
-              const description = project.content
-                ? project.content.replace(/<[^>]+>/g, '').slice(0, 100) + '...'
+            {posts.map((post, index) => {
+              const firstImage = post.image || extractFirstImage(post.content)
+              const description = post.content
+                ? post.content.replace(/<[^>]+>/g, '').slice(0, 100) + '...'
                 : '내용 없음'
 
-              const tags = Array.isArray(project.tags) ? project.tags : []
+              const tags = Array.isArray(post.tags) ? post.tags : []
 
               return (
-                <AnimatedDiv key={project.id} index={index} delay={100}>
+                <AnimatedDiv key={post.id} index={index} delay={100}>
                   <div className="bg-gray-300 rounded-lg shadow-xl p-6 flex flex-col items-center text-center h-full">
                     <div className="relative w-full h-48 mb-4 rounded-md overflow-hidden">
                       {firstImage ? (
                         <Image
                           src={firstImage}
-                          alt={project.title}
+                          alt={post.title}
                           fill
                           style={{ objectFit: 'cover' }}
                           className="rounded-md"
@@ -94,7 +96,7 @@ export default function OutputsPage() {
                       )}
                     </div>
 
-                    <h3 className="text-2xl font-bold text-black mb-2">{project.title}</h3>
+                    <h3 className="text-2xl font-bold text-black mb-2">{post.title}</h3>
                     <p className="text-gray-300 text-sm mb-4 line-clamp-3 flex-grow">{description}</p>
 
                     <div className="flex flex-wrap justify-center gap-2 mb-4">
@@ -109,7 +111,7 @@ export default function OutputsPage() {
                     </div>
 
                     <Link
-                      href={`/outputs/${project.id}`}
+                      href={`/feedback/${post.id}`}
                       className="mt-auto inline-block bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded transition-colors duration-300"
                     >
                       자세히 보기

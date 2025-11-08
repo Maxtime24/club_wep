@@ -12,7 +12,7 @@ export default function Header() {
         </Link>
         <ul className="flex space-x-4">
           <li><Link href="/outputs" className="text-gray-300 hover:text-white font-[Pretendard] font-bold">프로젝트</Link></li>
-          <li><Link href="/feedback" className="text-gray-300 hover:text-white font-[Pretendard] font-bold pl-15">포스트</Link></li>
+          <li><Link href="/post" className="text-gray-300 hover:text-white font-[Pretendard] font-bold pl-15">포스트</Link></li>
           <li><Link href="/write" className="text-gray-300 hover:text-white font-[Pretendard] font-bold pl-15">글 쓰기</Link></li>
         </ul>
       </nav>

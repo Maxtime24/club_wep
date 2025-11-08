@@ -19,11 +19,11 @@ export default async function ProjectDetailPage({ params }: { params: { slug: st
   return (
     <div className="min-h-screen bg-[url('/images/background.png')] bg-cover bg-center bg-no-repeat text-white p-8 pt-24 md:pt-28">
       <div className="container mx-auto max-w-7xl bg-gray-200/80 rounded-lg pl-20 pr-20 pb-20 md:pt-20">
-        <Link href="/outputs" className="text-blue-400 hover:text-blue-300 flex items-center mb-6">
+        <Link href="/feedback" className="text-blue-400 hover:text-blue-300 flex items-center mb-6">
           <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
           </svg>
-          산출물 목록으로 돌아가기
+          포스트 목록으로 돌아가기
         </Link>
 
         <h1 className="text-4xl md:text-5xl font-extrabold text-center text-blue-500 mb-8 mt-4">

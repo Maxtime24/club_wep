@@ -28,7 +28,7 @@ export default async function OutputsPage() {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-8 p-10">
-      {projects?.map((post, index) => (
+      {posts?.map((post, index) => (
         <ProjectCard key={post.id} project={post} index={index} delay={0} />
       ))}
     </div>

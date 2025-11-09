@@ -3,7 +3,7 @@
 import { supabase } from '@/lib/supabaseClient'
 import Link from 'next/link'
 
-export const revalidate = 30 // 30초마다 데이터 캐싱 갱신
+export const revalidate = 5 // 30초마다 데이터 캐싱 갱신
 
 export default async function PostsPage() {
   // Supabase에서 posts 데이터 가져오기

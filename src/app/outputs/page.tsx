@@ -1,12 +1,14 @@
-// 서버 컴포넌트
-import { supabase } from '@/lib/supabaseClient'
+// src/app/outputs/page.tsx
+import { supabaseServer } from '@/lib/supabaseServer'
 import ProjectCard from '@/components/common/ProjectCard'
-import 
 
-export const revalidate = 5 // 데이터 캐싱 (선택사항)
+export const revalidate = 5 // ISR (5초마다 재검증)
 
 export default async function OutputsPage() {
-  // Supabase에서 projects 데이터 가져오기
+  // 서버용 Supabase 클라이언트 생성
+  const supabase = supabaseServer()
+
+  // 데이터 가져오기
   const { data: projects, error } = await supabase
     .from('projects')
     .select('*')
@@ -14,11 +16,19 @@ export default async function OutputsPage() {
 
   if (error) {
     console.error('Supabase fetch error:', error)
-    return <div className="text-red-500 text-center mt-10">데이터를 불러오는 중 오류가 발생했습니다.</div>
+    return (
+      <div className="text-red-500 text-center mt-10">
+        데이터를 불러오는 중 오류가 발생했습니다.
+      </div>
+    )
   }
 
   if (!projects || projects.length === 0) {
-    return <div className="text-gray-400 text-center mt-10">등록된 프로젝트가 없습니다.</div>
+    return (
+      <div className="text-gray-400 text-center mt-10">
+        등록된 프로젝트가 없습니다.
+      </div>
+    )
   }
 
   // 이미지 보정 로직

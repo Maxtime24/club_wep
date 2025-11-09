@@ -30,7 +30,7 @@ export default async function OutputsPage() {
   return (
     <div className="min-h-screen bg-[url('/images/background.png')] bg-cover bg-center bg-no-repeat text-white p-8 pt-24 md:pt-28">
       <div className="container mx-auto max-w-7xl">
-        <h1 className="text-4xl md:text-5xl font-extrabold text-center text-blue-400 mb-12">
+        <h1 className="text-4xl md:text-5xl font-extrabold text-center text-white mb-12">
           프로젝트 결과물
         </h1>
 

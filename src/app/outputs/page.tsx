@@ -6,8 +6,8 @@ export const revalidate = 30 // 데이터 캐싱 (선택사항)
 
 export default async function OutputsPage() {
   // Supabase에서 projects 데이터 가져오기
-  const { data: post, error } = await supabase
-    .from('posts')
+  const { data: projects, error } = await supabase
+    .from('projects')
     .select('*')
     .order('id', { ascending: false })
 
@@ -16,15 +16,15 @@ export default async function OutputsPage() {
     return <div className="text-red-500 text-center mt-10">데이터를 불러오는 중 오류가 발생했습니다.</div>
   }
 
-  if (!post || post.length === 0) {
+  if (!projects || projects.length === 0) {
     return <div className="text-gray-400 text-center mt-10">등록된 프로젝트가 없습니다.</div>
   }
 
   // 이미지 보정 로직
-  const processedProjects = post.map((project) => {
-    const match = post.content?.match(/<img\s+[^>]*src=["']([^"']+)["']/i)
-    const firstImage = post.image || (match ? match[1] : '/images/default.png')
-    return { ...post, image: firstImage }
+  const processedProjects = projects.map((project) => {
+    const match = project.content?.match(/<img\s+[^>]*src=["']([^"']+)["']/i)
+    const firstImage = project.image || (match ? match[1] : '/images/default.png')
+    return { ...project, image: firstImage }
   })
 
   return (
@@ -35,10 +35,10 @@ export default async function OutputsPage() {
         </h1>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {processedProjects.map((post, index) => (
+          {processedProjects.map((project, index) => (
             <ProjectCard
-              key={post.id}
-              project={post}
+              key={project.id}
+              project={project}
               index={index}
               delay={0}
             />

@@ -1,6 +1,6 @@
 // 서버 컴포넌트
 import { supabase } from '@/lib/supabaseClient'
-import ProjectCard from '@/components/common/ProjectCard'
+import ProjectCard from '@/components/common/PostCard'
 
 export const revalidate = 30 // 데이터 캐싱 (선택사항)
 

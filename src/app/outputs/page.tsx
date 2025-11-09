@@ -32,19 +32,6 @@ export default function OutputsPageClient({ projects }: OutputsPageProps) {
             const match = project.content?.match(/<img\s+[^>]*src=["']([^"']+)["']/i)
             const firstImage = project.image || (match ? match[1] : '/images/default.png')
 
-            return (
-              <div key={project.id} className="relative">
-                <ProjectCard project={{ ...project, image: firstImage }} index={index} delay={0} />
-                {/* 삭제 버튼 */}
-                <div className="absolute bottom-4 right-4">
-                  <DeleteButton
-                    id={project.id}
-                    table="projects"
-                    onDeleted={() => router.push('/outputs')}
-                  />
-                </div>
-              </div>
-            )
           })}
         </div>
       </div>

@@ -39,14 +39,6 @@ export default function PostsPageClient({ posts }: PostsPageProps) {
                   {new Date(post.created_at).toLocaleDateString('ko-KR')}
                 </p>
               </Link>
-
-              <div className="absolute bottom-4 right-4">
-                <DeleteButton
-                  id={post.id}
-                  table="posts"
-                  onDeleted={() => router.push('/post')} // 삭제 후 리스트로 이동
-                />
-              </div>
             </div>
           ))}
         </div>

@@ -38,7 +38,7 @@ export default async function PostsPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {summarizedPosts.map((post) => (
             <Link
-              href={`/posts/${post.id}`}
+              href={`/post/${post.id}`}
               key={post.id}
               className="block bg-white/90 text-gray-900 rounded-lg shadow-lg p-6 hover:shadow-2xl hover:-translate-y-1 transform transition-all duration-300"
             >

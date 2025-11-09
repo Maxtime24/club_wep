@@ -10,9 +10,9 @@ export default async function ProjectDetailPage({ params }: { params: { slug: st
     .from('posts')
     .select('*')
     .eq('id', Number(slug)) // id가 serial인 경우 Number로 변환
-    .single()
+    .single() 
 
-  if (error || !project) {
+  if (error || !post) {
     notFound()
   }
 

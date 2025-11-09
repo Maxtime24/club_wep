@@ -23,7 +23,7 @@
   "@/db": ["./db/index.ts"],
   "@/db/*": ["./db/*"],
   "@/components/*": ["./src/components/*"],
-  "@/data/*": ["./data/*"]
+  "@/data/*": ["./data/*"],
 },
     "baseUrl": "."
   },

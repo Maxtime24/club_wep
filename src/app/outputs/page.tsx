@@ -1,6 +1,7 @@
 // 서버 컴포넌트
 import { supabase } from '@/lib/supabaseClient'
 import ProjectCard from '@/components/common/ProjectCard'
+import DeleteButton from '@/components/common/DeleteButton'
 
 export const revalidate = 5 // 데이터 캐싱 (선택사항)
 
@@ -45,6 +46,12 @@ export default async function OutputsPage() {
           ))}
         </div>
       </div>
+
+      <DeleteButton
+  id={project.id}
+  table="projects"
+  onDeleted={() => router.push('/outputs')} // 삭제 후 리스트로 이동
+/>
     </div>
   )
 }

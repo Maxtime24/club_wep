@@ -2,6 +2,7 @@
 
 import { supabase } from '@/lib/supabaseClient'
 import Link from 'next/link'
+import DeleteButton from '@/components/common/DeleteButton'
 
 export const revalidate = 5 // 30초마다 데이터 캐싱 갱신
 
@@ -51,6 +52,12 @@ export default async function PostsPage() {
           ))}
         </div>
       </div>
+
+      <DeleteButton
+  id={project.id}
+  table="posts"
+  onDeleted={() => router.push('/post')} // 삭제 후 리스트로 이동
+/>
     </div>
   )
 }

@@ -1,32 +1,24 @@
-// 서버 컴포넌트
-import { supabase } from '@/lib/supabaseClient'
-import ProjectCard from '@/components/common/ProjectCard'
+'use client'
+
+import { useRouter } from 'next/navigation'
 import DeleteButton from '@/components/common/DeleteButton'
+import ProjectCard from '@/components/common/ProjectCard'
 
-export const revalidate = 5 // 데이터 캐싱 (선택사항)
+interface Project {
+  id: number
+  title: string
+  content?: string
+  image?: string
+  tags?: string[]
+  link?: string
+}
 
-export default async function OutputsPage() {
-  // Supabase에서 projects 데이터 가져오기
-  const { data: projects, error } = await supabase
-    .from('projects')
-    .select('*')
-    .order('id', { ascending: false })
+interface OutputsPageProps {
+  projects: Project[]
+}
 
-  if (error) {
-    console.error('Supabase fetch error:', error)
-    return <div className="text-red-500 text-center mt-10">데이터를 불러오는 중 오류가 발생했습니다.</div>
-  }
-
-  if (!projects || projects.length === 0) {
-    return <div className="text-gray-400 text-center mt-10">등록된 프로젝트가 없습니다.</div>
-  }
-
-  // 이미지 보정 로직
-  const processedProjects = projects.map((project) => {
-    const match = project.content?.match(/<img\s+[^>]*src=["']([^"']+)["']/i)
-    const firstImage = project.image || (match ? match[1] : '/images/default.png')
-    return { ...project, image: firstImage }
-  })
+export default function OutputsPageClient({ projects }: OutputsPageProps) {
+  const router = useRouter()
 
   return (
     <div className="min-h-screen bg-[url('/images/background.png')] bg-cover bg-center bg-no-repeat text-white p-8 pt-24 md:pt-28">
@@ -36,22 +28,26 @@ export default async function OutputsPage() {
         </h1>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {processedProjects.map((project, index) => (
-            <ProjectCard
-              key={project.id}
-              project={project}
-              index={index}
-              delay={0}
-            />
-          ))}
+          {projects.map((project, index) => {
+            const match = project.content?.match(/<img\s+[^>]*src=["']([^"']+)["']/i)
+            const firstImage = project.image || (match ? match[1] : '/images/default.png')
+
+            return (
+              <div key={project.id} className="relative">
+                <ProjectCard project={{ ...project, image: firstImage }} index={index} delay={0} />
+                {/* 삭제 버튼 */}
+                <div className="absolute bottom-4 right-4">
+                  <DeleteButton
+                    id={project.id}
+                    table="projects"
+                    onDeleted={() => router.push('/outputs')}
+                  />
+                </div>
+              </div>
+            )
+          })}
         </div>
       </div>
-
-      <DeleteButton
-  id={project.id}
-  table="projects"
-  onDeleted={() => router.push('/outputs')} // 삭제 후 리스트로 이동
-/>
     </div>
   )
 }

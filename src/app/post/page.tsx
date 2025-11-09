@@ -1,11 +1,13 @@
 // src/app/posts/page.tsx
-import Link from 'next/link'
-import { supabaseServer } from '@/lib/supabaseServer'
 
-export const revalidate = 5
+import { supabase } from '@/lib/supabaseClient'
+import Link from 'next/link'
+
+export const revalidate = 30 // 30초마다 데이터 캐싱 갱신
+export const revalidate = 5 // 30초마다 데이터 캐싱 갱신
 
 export default async function PostsPage() {
-  const supabase = supabaseServer()
+  // Supabase에서 posts 데이터 가져오기
   const { data: posts, error } = await supabase
     .from('posts')
     .select('id, title, content, created_at')
@@ -16,10 +18,11 @@ export default async function PostsPage() {
     return <div className="text-red-500 text-center mt-10">데이터를 불러오는 중 오류가 발생했습니다.</div>
   }
 
-  if (!posts?.length) {
+  if (!posts || posts.length === 0) {
     return <div className="text-gray-400 text-center mt-10">등록된 포스트가 없습니다.</div>
   }
 
+  // 내용 요약 (HTML 태그 제거 후 앞부분만 표시)
   const summarizedPosts = posts.map((post) => {
     const textOnly = post.content?.replace(/<[^>]*>?/gm, '') || ''
     const summary = textOnly.length > 100 ? textOnly.slice(0, 100) + '...' : textOnly

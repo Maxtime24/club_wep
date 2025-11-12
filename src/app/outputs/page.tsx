@@ -2,7 +2,6 @@
 import { supabase } from '@/lib/supabaseClient'
 import ProjectCard from '@/components/common/ProjectCard'
 
-export const revalidate = 30 // 데이터 캐싱 (선택사항)
 export const revalidate = 5 // 데이터 캐싱 (선택사항)
 
 export default async function OutputsPage() {

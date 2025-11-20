@@ -256,7 +256,7 @@ export default function Home() {
               >
                 <h3 className="font-bold text-lg text-black mb-2">{post.title}</h3>
                 <p className="text-gray-700 text-sm line-clamp-3">
-                  {post.content || '설명이 없습니다.'}
+                  {post.description || '설명이 없습니다.'}
                 </p>
                 <Link href={`/post/${post.id}`}>
                   <button className="mt-4 w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-lg">

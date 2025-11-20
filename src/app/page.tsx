@@ -241,9 +241,9 @@ export default function Home() {
             </div>
           </section>
         </div>
-
         {/* Recent Posts 섹션 */}
-        <section className="container mx-auto p-10 mt-12 bg-[url('/images/background2.jpg')] bg-cover bg-center bg-no-repeat rounded-lg">
+        <div className="bg-[url('/images/background2.png')] bg-cover bg-center bg-no-repeat py-20 md:py-40">
+        <section className="container mx-auto p-10 mt-12">
           <h2 className="text-4xl font-bold text-black text-center mb-10">
             RECENT POSTS
           </h2>
@@ -267,6 +267,7 @@ export default function Home() {
             ))}
           </div>
         </section>
+        </div>
       </div>
     </div>
   );

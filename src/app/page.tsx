@@ -244,48 +244,6 @@ async function fetchRecentPosts() {
             </div>
           </section>
         </div>
-
-        {/* Top 6 Recent Posts Section */}
-<section className="container mx-auto p-10 mt-12 bg-stone-300/70 rounded-lg">
-  <h2 className="text-4xl font-bold text-black text-center mb-10">
-    RECENT POSTS
-  </h2>
-
-  <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-    {recentPosts.map((post, index) => {
-      const firstImage =
-        post.image ||
-        (() => {
-          const match = post.content?.match(/<img[^>]+src="([^">]+)"/i);
-          return match ? match[1] : '/images/default.png';
-        })();
-
-      return (
-        <div
-          key={post.id}
-          className="bg-white rounded-xl p-6 shadow-lg hover:scale-105 transition-transform duration-300"
-        >
-          <Image
-            src={firstImage}
-            alt={post.title}
-            width={500}
-            height={300}
-            className="rounded-lg mb-4 object-cover"
-          />
-          <h3 className="font-bold text-lg text-black mb-2">{post.title}</h3>
-          <p className="text-gray-700 text-sm line-clamp-3">
-            {post.description || '설명이 없습니다.'}
-          </p>
-          <Link href={`/posts/${post.id}`}>
-            <button className="mt-4 w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-lg">
-              자세히 보기
-            </button>
-          </Link>
-        </div>
-      );
-    })}
-  </div>
-</section>
       </div>
     </div>
   );

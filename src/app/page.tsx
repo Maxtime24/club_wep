@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import Link from 'next/link';
 import Slider from 'react-slick';
 import { useInView } from 'react-intersection-observer';
@@ -13,16 +14,15 @@ const backgroundImageUrls = ['/images/bg1.jpg', '/images/bg2.jpg', '/images/bg3.
 type ProjectType = {
   id: string;
   title: string;
-  description?: string;
-  content?: string;
+  description: string;
   image?: string;
+  content?: string;
   tags?: string[];
   link?: string;
 };
 
 export default function Home() {
   const [topProjects, setTopProjects] = useState<ProjectType[]>([]);
-  const [recentPosts, setRecentPosts] = useState<ProjectType[]>([]);
 
   // --- 뷰포트 감지 ---
   const { ref: mainTitleRef, inView: mainTitleInView } = useInView({ triggerOnce: false, threshold: 0.3 });
@@ -48,26 +48,30 @@ export default function Home() {
     pauseOnHover: false,
   };
 
-  // --- Top 3 프로젝트 가져오기 ---
+  const [recentPosts, setRecentPosts] = useState<ProjectType[]>([]);
+
+// --- 최근 6개 posts 가져오기 ---
+async function fetchRecentPosts() {
+  const { data, error } = await supabase
+    .from('posts')
+    .select('*')
+    .order('id', { ascending: false })
+    .limit(6);
+
+  if (error) console.error('Failed to fetch posts:', error);
+  else setRecentPosts(data || []);
+}
+
+  // --- DB에서 Top 3 프로젝트 가져오기 ---
   async function fetchTopProjects() {
     const { data, error } = await supabase
       .from('projects')
       .select('*')
       .order('id', { ascending: false })
       .limit(3);
+
     if (error) console.error('Failed to fetch top projects:', error);
     else setTopProjects(data || []);
-  }
-
-  // --- 최근 6개 posts 가져오기 ---
-  async function fetchRecentPosts() {
-    const { data, error } = await supabase
-      .from('posts')
-      .select('*')
-      .order('id', { ascending: false })
-      .limit(6);
-    if (error) console.error('Failed to fetch posts:', error);
-    else setRecentPosts(data || []);
   }
 
   useEffect(() => {
@@ -96,9 +100,13 @@ export default function Home() {
         <Slider {...settings}>
           {backgroundImageUrls.map((url, index) => (
             <div key={index} className="h-screen w-screen relative">
-              <div
-                className="absolute inset-0 bg-cover bg-center brightness-50 blur-sm"
-                style={{ backgroundImage: `url(${url})` }}
+              <Image
+                src={url}
+                alt={`배경 이미지 ${index + 1}`}
+                fill
+                style={{ objectFit: 'cover' }}
+                className="brightness-50 blur-sm"
+                priority={index === 0}
               />
             </div>
           ))}
@@ -152,12 +160,9 @@ export default function Home() {
                 학교 밖에서도 활용하여 봉사, 프로젝트, 실험을 진행하며<br />
                 창의적이고 진보적인 활동을 통해 학생들의 혁신적 사고를 기릅니다.
               </p>
-            </div>
-          </section>
-        </div>
-
-        {/* Activities 섹션 */}
-        <div className="bg-[url('/images/background2.jpg')] bg-cover bg-center bg-no-repeat py-20 md:py-40">
+            </div><div
+          className="bg-[url('/images/background.png')] bg-cover bg-center bg-no-repeat py-20 md:py-40"
+        >
           <section className="container mx-auto p-10 bg-stone-300/70 rounded-lg">
             <h1
               ref={activitiesTitleRef}
@@ -169,6 +174,21 @@ export default function Home() {
             </h1>
 
             <div
+              ref={activitiesImageRef}
+              className={`transition-all duration-1000 ease-out delay-300 ${
+                activitiesImageInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+              } text-center mt-10`}
+            >
+              <Image
+                src="/images/bg2.jpg"
+                alt="Activities of AI Digital Laboratory"
+                width={1000}
+                height={450}
+                className="mx-auto rounded-lg shadow-lg"
+              />
+            </div>
+
+            <p
               ref={activitiesTextRef}
               className={`transition-all duration-1000 ease-out delay-500 ${
                 activitiesTextInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
@@ -177,32 +197,14 @@ export default function Home() {
               AI, 라즈베리파이, 마이크로비트, 자율주행, 유니티, 웹 실무 등<br />
               다양한 기술 교육과 프로젝트를 통해 학생들이 직접 응용하고<br />
               프로그래밍의 즐거움을 체험할 수 있도록 돕습니다.
-            </div>
-
-            {/* 최근 6개 포스트 */}
-            <div className="mt-12">
-              <h2 className="text-4xl font-bold text-black text-center mb-10">RECENT POSTS</h2>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                {recentPosts.map((post) => (
-                  <div
-                    key={post.id}
-                    className="bg-white rounded-xl p-6 shadow-lg hover:scale-105 transition-transform duration-300"
-                  >
-                    <h3 className="font-bold text-lg text-black mb-2">{post.title}</h3>
-                    <p className="text-gray-700 text-sm line-clamp-3">
-                      {post.description || '설명이 없습니다.'}
-                    </p>
-                    <Link href={`/posts/${post.id}`}>
-                      <button className="mt-4 w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-lg">
-                        자세히 보기
-                      </button>
-                    </Link>
-                  </div>
-                ))}
-              </div>
-            </div>
+            </p>
           </section>
         </div>
+          </section>
+        </div>
+
+        {/* Activities 섹션 */}
+        
 
         {/* Top 3 Projects 섹션 */}
         <div className="bg-stone-900 bg-opacity-70 py-16 md:py-24">
@@ -241,6 +243,31 @@ export default function Home() {
               </Link>
             </div>
           </section>
+
+          <section className="container mx-auto p-10 mt-12 bg-[url('/images/background2.jpg')] bg-cover bg-center bg-no-repeat rounded-lg">
+  <h2 className="text-4xl font-bold text-black text-center mb-10">
+    RECENT POSTS
+  </h2>
+
+  <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+    {recentPosts.map((post) => (
+      <div
+        key={post.id}
+        className="bg-white rounded-xl p-6 shadow-lg hover:scale-105 transition-transform duration-300"
+      >
+        <h3 className="font-bold text-lg text-black mb-2">{post.title}</h3>
+        <p className="text-gray-700 text-sm line-clamp-3">
+          {post.description || '설명이 없습니다.'}
+        </p>
+        <Link href={`/posts/${post.id}`}>
+          <button className="mt-4 w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-lg">
+            자세히 보기
+          </button>
+        </Link>
+      </div>
+    ))}
+  </div>
+</section>
         </div>
       </div>
     </div>

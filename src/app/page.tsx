@@ -244,7 +244,7 @@ export default function Home() {
         {/* Recent Posts 섹션 */}
         <div className="bg-[url('/images/background2.jpg')] bg-cover bg-center bg-no-repeat py-20 md:py-40">
         <section className="container mx-auto p-10 mt-12">
-          <h2 className="text-4xl font-bold text-black text-center mb-10">
+          <h2 className="text-4xl font-bold text-black text-center text-white mb-10">
             RECENT POSTS
           </h2>
 
@@ -256,9 +256,9 @@ export default function Home() {
               >
                 <h3 className="font-bold text-lg text-black mb-2">{post.title}</h3>
                 <p className="text-gray-700 text-sm line-clamp-3">
-                  {post.description || '설명이 없습니다.'}
+                  {post.content || '설명이 없습니다.'}
                 </p>
-                <Link href={`/posts/${post.id}`}>
+                <Link href={`/post/${post.id}`}>
                   <button className="mt-4 w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-lg">
                     자세히 보기
                   </button>

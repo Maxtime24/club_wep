@@ -1,73 +1,58 @@
-'use client'
+'use client';
 
-import { useState } from 'react'
-import { addPost } from '@/app/actions/addPost'
+import { useState } from 'react';
+import { supabase } from '@/lib/supabaseClient';
 
-export default function FeedbackFloat() {
-  const [open, setOpen] = useState(false)
-  const [content, setContent] = useState('')
-  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
+export default function FeedbackForm() {
+  const [content, setContent] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState('');
 
-  async function handleSubmit(e: any) {
-    e.preventDefault()
-    setStatus('loading')
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!content) return;
 
-    const formData = new FormData()
-    formData.append('content', content)
+    setLoading(true);
+    setMessage('');
 
-    const res = await addPost(formData)
+    const { data, error } = await supabase
+      .from('posts')
+      .insert({
+        title: content.slice(0, 50), // title이 NOT NULL이므로 content 일부 사용
+        content: content,
+        type: 'post',
+        author: '익명' // author NOT NULL 컬럼 필수
+      });
 
-    if (res.success) {
-      setContent('')
-      setStatus('success')
-      setTimeout(() => setStatus('idle'), 1500)
+    setLoading(false);
+
+    if (error) {
+      console.error('Insert Error:', error);
+      setMessage('피드백 등록 실패');
     } else {
-      setStatus('error')
+      setMessage('피드백 등록 성공!');
+      setContent('');
     }
-  }
+  };
 
   return (
-    <div className="fixed bottom-5 right-5">
-      {!open && (
+    <div className="fixed bottom-5 right-5 w-80 bg-white shadow-lg rounded-xl p-4 z-50">
+      <form onSubmit={handleSubmit} className="flex flex-col gap-2">
+        <textarea
+          className="border rounded p-2 resize-none h-24"
+          placeholder="피드백을 입력하세요..."
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
+        />
         <button
-          onClick={() => setOpen(true)}
-          className="p-3 rounded-full shadow bg-blue-600 text-white"
+          type="submit"
+          className="bg-blue-500 text-white rounded p-2 disabled:opacity-50"
+          disabled={loading}
         >
-          Feedback
+          {loading ? '전송 중...' : '전송'}
         </button>
-      )}
-      {open && (
-        <div className="w-72 p-4 rounded-lg shadow-lg bg-white border">
-          <form onSubmit={handleSubmit}>
-            <textarea
-              name="content"
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
-              placeholder="의견을 입력하세요"
-              className="w-full h-24 border rounded p-2 text-sm"
-            />
-            <div className="flex justify-between mt-2">
-              <button
-                type="button"
-                onClick={() => setOpen(false)}
-                className="text-gray-500 text-sm"
-              >
-                닫기
-              </button>
-              <button
-                type="submit"
-                disabled={status === 'loading'}
-                className="px-3 py-1 rounded bg-blue-600 text-white text-sm"
-              >
-                {status === 'loading' ? '저장 중...' : '보내기'}
-              </button>
-            </div>
-          </form>
-
-          {status === 'success' && <p className="text-green-500 text-xs mt-2">저장 완료</p>}
-          {status === 'error' && <p className="text-red-500 text-xs mt-2">오류 발생</p>}
-        </div>
-      )}
+        {message && <p className="text-sm text-gray-700">{message}</p>}
+      </form>
     </div>
-  )
+  );
 }

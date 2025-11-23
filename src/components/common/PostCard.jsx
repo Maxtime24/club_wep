@@ -28,7 +28,7 @@ export default function ProjectCard({ project, index, delay = 0 }) {
     >
       {/* 상단 이미지 + 제목 + 내용 */}
       <div>
-        <div className="relative w-full h-48 mb-4 rounded-md overflow-hidden">
+        <div className="relative w-full h-95 mb-4 rounded-md overflow-hidden">
           <Image
             src={project.image}
             alt={project.title}

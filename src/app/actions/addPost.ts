@@ -9,7 +9,7 @@ export async function addPost(formData: FormData) {
     return { success: false, error: '2자 이상 입력해주세요.' }
   }
 
-  const title = content.slice(0, 20) // 자동 생성
+  const title = content.length > 10 ? content.slice(0, 10) + '...' : content;
 
   const { error } = await supabase
     .from('posts')

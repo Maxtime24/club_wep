@@ -245,7 +245,7 @@ export default function Home() {
         <div className="bg-[url('/images/background2.jpg')] bg-cover bg-center bg-no-repeat py-20 md:py-40">
         <section className="container mx-auto p-10 mt-12">
           <h2 className="text-4xl font-bold text-black text-center text-white mb-10">
-            RECENT POSTS
+            FeedBack
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">

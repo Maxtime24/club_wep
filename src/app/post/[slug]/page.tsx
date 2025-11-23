@@ -27,7 +27,7 @@ export default async function ProjectDetailPage({ params }: { params: { slug: st
         </Link>
 
         <h1 className="text-4xl md:text-5xl font-extrabold text-center text-blue-500 mb-8 mt-4">
-          {post.title}
+          FeedBack
         </h1>
 
         {post.image && (

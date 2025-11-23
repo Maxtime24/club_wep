@@ -44,9 +44,10 @@ export default async function PostsPage() {
             >
               <h2 className="text-2xl font-bold mb-2 text-blue-600">{post.title}</h2>
               <p className="text-gray-700 mb-4 line-clamp-3">{post.summary}</p>
-              <p className="text-sm text-gray-500">
-                {new Date(post.created_at).toLocaleDateString('ko-KR')}
-              </p>
+              <p className="flex justify-start text-gray-400 text-xs mt-2">
+    {new Date(post.created_at).toLocaleDateString()}
+  </p>
+
             </Link>
           ))}
         </div>

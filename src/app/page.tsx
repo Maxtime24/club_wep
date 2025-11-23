@@ -260,7 +260,7 @@ export default function Home() {
 </p>
                 <Link href={`/post/${post.id}`}>
                   <button className="mt-4 w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-lg">
-                    자세히 보기
+                    더보기
                   </button>
                 </Link>
               </div>

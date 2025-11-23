@@ -42,7 +42,7 @@ export default function ProjectCard({ project, index, delay = 0 }) {
         href={`/post/${project.id}`} // <--- 여기를 수정!
         className="mt-auto inline-block bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded transition-colors duration-300"
       >
-        자세히 보기
+        더보기
       </Link>
     </div>
   );

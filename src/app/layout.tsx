@@ -1,6 +1,7 @@
 import './globals.css'
 import Header from '@/components/common/header'
 import Footer from '@/components/common/footer'
+import FeedbackFloat from '@/components/common/FeedbackFloat'
 import React from 'react'
 import type { Metadata } from 'next'
 
@@ -26,6 +27,7 @@ export default function RootLayout({
         <main className="min-h-screen pt-16">
           {children}
         </main>
+        <FeedbackFloat />
         <Footer />
       </body>
     </html>

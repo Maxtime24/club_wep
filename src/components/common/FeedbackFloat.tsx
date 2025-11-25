@@ -68,8 +68,9 @@ export default function FeedbackButton() {
         className="fixed bottom-6 right-6 w-14 h-14 rounded-full shadow-xl bg-white z-50
         hover:scale-110 active:scale-95 transition-all duration-200 origin-center animate-fabPop flex items-center justify-center"
       >
+        
         <Image
-          src="/feedback.png"
+          src="../../../public/images/feedback.png"
           alt="feedback"
           width={32}
           height={32}

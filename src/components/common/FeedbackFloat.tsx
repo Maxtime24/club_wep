@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabaseClient';
 
 export default function FeedbackButton() {
@@ -28,15 +28,23 @@ export default function FeedbackButton() {
     setLoading(false);
 
     if (error) {
-      console.error(error);
       setMessage('피드백 등록 실패');
       setError(true);
     } else {
-      setMessage('피드백 등록 성공');
+      setMessage('피드백 등록 성공!');
       setContent('');
-      setTimeout(() => setOpen(false), 800);
+      setTimeout(() => setOpen(false), 1000);
     }
   };
+
+  // ESC 키로 닫기
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setOpen(false);
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
 
   return (
     <>
@@ -44,24 +52,27 @@ export default function FeedbackButton() {
       <button
         onClick={() => setOpen(true)}
         className="fixed bottom-6 right-6 px-5 py-3 rounded-full shadow-lg text-white font-bold z-50
-         bg-[linear-gradient(110.8246056093817deg,rgba(243,72,104,1)_15.15%,rgba(242,71,104,1)_15.15%,rgba(158,0,236,1)_86.87%)]
-         hover:opacity-90 transition-all"
+        bg-[linear-gradient(110.8246056093817deg,rgba(243,72,104,1)_15.15%,rgba(242,71,104,1)_15.15%,rgba(158,0,236,1)_86.87%)]
+        hover:opacity-90 transition-all"
       >
         피드백
       </button>
 
-      {/* Modal Overlay */}
+      {/* Overlay */}
       {open && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-40 z-40"
+          className="fixed inset-0 bg-black/40 backdrop-blur-sm z-40 animate-fadeInSlow"
           onClick={() => setOpen(false)}
         ></div>
       )}
 
-      {/* Modal Box */}
+      {/* Modal */}
       {open && (
         <div className="fixed inset-0 flex justify-center items-center z-50">
-          <div className="bg-white rounded-xl w-96 p-6 shadow-2xl animate-fadeIn">
+          <div
+            className="bg-white rounded-2xl w-96 p-6 shadow-2xl
+            animate-modalPop"
+          >
             <h2 className="text-xl font-bold text-gray-800 text-center mb-4">
               피드백 남기기
             </h2>
@@ -76,10 +87,20 @@ export default function FeedbackButton() {
 
               <button
                 type="submit"
-                className="bg-purple-500 text-white font-semibold py-2 rounded-lg hover:bg-purple-600 transition-all disabled:opacity-50"
+                className="bg-purple-500 text-white font-semibold py-2 rounded-lg
+                hover:bg-purple-600 transition-all disabled:opacity-50"
                 disabled={loading}
               >
                 {loading ? '전송 중…' : '전송'}
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setOpen(false)}
+                className="bg-gray-300 text-gray-700 font-semibold py-2 rounded-lg
+                hover:bg-gray-400 transition-all"
+              >
+                닫기
               </button>
 
               {message && (

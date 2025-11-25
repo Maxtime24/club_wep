@@ -90,7 +90,7 @@ export default function FeedbackButton() {
       {open && (
         <div className="fixed inset-0 flex justify-center items-center z-50">
           <div
-            className={`bg-white rounded-2xl w-96 p-6 shadow-2xl transition-all
+            className={`bg-[linear-gradient(110.8246056093817deg,rgba(243,72,104,1)_15.152343635757763%,rgba(242,71,104,1)_15.152343635757763%,rgba(158,0,236,1)_86.8710970133543%)] rounded-2xl w-96 p-6 shadow-2xl transition-all
             ${closing ? 'animate-modalFadeOut' : 'animate-modalPopBlur'}`}
           >
             <h2 className="text-xl font-bold text-gray-800 text-center mb-4">

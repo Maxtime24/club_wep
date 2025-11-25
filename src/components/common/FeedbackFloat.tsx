@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
+import Image from 'next/image';
 import { supabase } from '@/lib/supabaseClient';
 
 export default function FeedbackButton() {
@@ -23,7 +24,7 @@ export default function FeedbackButton() {
       setClosing(false);
       setMessage('');
       setContent('');
-    }, 250); // modalFadeOut duration과 동일
+    }, 250);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -45,6 +46,7 @@ export default function FeedbackButton() {
       setError(true);
     } else {
       setMessage('등록 성공!');
+      setError(false);
       setTimeout(() => closeModal(), 800);
     }
   };
@@ -55,7 +57,6 @@ export default function FeedbackButton() {
       <button
         onClick={() => {
           openModal();
-          // 흔들림 애니메이션 트리거
           setTimeout(() => {
             const btn = document.getElementById('feedbackBtn');
             btn?.classList.remove('animate-fabShake');
@@ -64,11 +65,16 @@ export default function FeedbackButton() {
           }, 50);
         }}
         id="feedbackBtn"
-        className="fixed bottom-6 right-6 px-5 py-3 rounded-full shadow-xl text-white font-bold z-50
-        bg-[linear-gradient(110.8246056093817deg,rgba(243,72,104,1)_15.15%,rgba(242,71,104,1)_15.15%,rgba(158,0,236,1)_86.87%)]
-        hover:scale-110 active:scale-95 transition-all duration-200 origin-center animate-fabPop"
+        className="fixed bottom-6 right-6 w-14 h-14 rounded-full shadow-xl bg-white z-50
+        hover:scale-110 active:scale-95 transition-all duration-200 origin-center animate-fabPop flex items-center justify-center"
       >
-        피드백
+        <Image
+          src="/feedback.png"
+          alt="feedback"
+          width={32}
+          height={32}
+          className="pointer-events-none"
+        />
       </button>
 
       {/* Overlay */}

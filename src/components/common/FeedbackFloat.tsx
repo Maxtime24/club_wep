@@ -101,7 +101,7 @@ export default function FeedbackButton() {
                 className="border rounded-lg p-3 h-32 focus:ring-2 focus:ring-purple-400"
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
-                placeholder="피드백 작품명 \n\n 구체적인 피드백 내용을 써주세요"
+                placeholder="피드백 작품명 + 구체적인 피드백 내용을 써주세요"
               />
               <button
                 type="submit"

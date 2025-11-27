@@ -11,7 +11,7 @@ export default async function OutputsPage() {
   // ✅ content 필드 제외 (용량 감소)
   const { data: projects, error } = await supabase
     .from('projects')
-    .select('id, title, image, created_at, author') // content 제외!
+    .select('*') // 일단 전체 필드 가져오기
     .order('id', { ascending: false })
     .limit(50); // ✅ 최대 50개로 제한
 
@@ -24,11 +24,15 @@ export default async function OutputsPage() {
     return <div className="text-gray-400 text-center mt-10">등록된 프로젝트가 없습니다.</div>;
   }
 
-  // ✅ 이미지 처리 간소화 (content가 없으므로)
+  // ✅ 이미지 처리 - content에서 추출하거나 기본 이미지
   const processedProjects = projects.map((project) => {
+    // content에서 첫 번째 img 태그 찾기
+    const match = project.content?.match(/<img\s+[^>]*src=["']([^"']+)["']/i);
+    const firstImage = match ? match[1] : '/images/default.png';
+    
     return {
       ...project,
-      image: project.image || '/images/default.png'
+      image: firstImage
     };
   });
 

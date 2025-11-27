@@ -1,16 +1,19 @@
 import { getSupabaseServer } from '@/lib/supabaseClient';
 import ProjectCard from '@/components/common/ProjectCard';
 
-export const revalidate = 5;
+// ✅ ISR 비활성화 또는 긴 시간으로 설정
+export const revalidate = 0; // 또는 3600 (1시간)
+// export const dynamic = 'force-dynamic'; // 완전 동적으로 하려면 이걸 사용
 
 export default async function OutputsPage() {
-  // ✅ 함수를 호출해서 supabase 인스턴스 가져오기
   const supabase = getSupabaseServer();
   
+  // ✅ content 필드 제외 (용량 감소)
   const { data: projects, error } = await supabase
     .from('projects')
-    .select('*')
-    .order('id', { ascending: false });
+    .select('id, title, image, created_at, author') // content 제외!
+    .order('id', { ascending: false })
+    .limit(50); // ✅ 최대 50개로 제한
 
   if (error) {
     console.error('Supabase fetch error:', error);
@@ -21,11 +24,12 @@ export default async function OutputsPage() {
     return <div className="text-gray-400 text-center mt-10">등록된 프로젝트가 없습니다.</div>;
   }
 
-  // 이미지 보정
+  // ✅ 이미지 처리 간소화 (content가 없으므로)
   const processedProjects = projects.map((project) => {
-    const match = project.content?.match(/<img\s+[^>]*src=["']([^"']+)["']/i);
-    const firstImage = project.image || (match ? match[1] : '/images/default.png');
-    return { ...project, image: firstImage };
+    return {
+      ...project,
+      image: project.image || '/images/default.png'
+    };
   });
 
   return (

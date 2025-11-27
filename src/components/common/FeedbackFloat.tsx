@@ -29,25 +29,30 @@ export default function FeedbackButton() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!content) return;
+    if (!content.trim()) return;
 
     setLoading(true);
-    const { error } = await supabase.from('posts').insert({
-      title: content.slice(0, 10),
-      content,
-      type: 'post',
-      author: '익명',
-    });
+    setMessage('');
+    
+    try {
+      const { error } = await supabase.from('posts').insert({
+        title: content.slice(0, 10),
+        content,
+        type: 'post',
+        author: '익명',
+      });
 
-    setLoading(false);
+      if (error) throw error;
 
-    if (error) {
-      setMessage('등록 실패');
-      setError(true);
-    } else {
       setMessage('등록 성공!');
       setError(false);
       setTimeout(() => closeModal(), 800);
+    } catch (err) {
+      console.error('Feedback submission error:', err);
+      setMessage('등록 실패');
+      setError(true);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -59,14 +64,17 @@ export default function FeedbackButton() {
           openModal();
           setTimeout(() => {
             const btn = document.getElementById('feedbackBtn');
-            btn?.classList.remove('animate-fabShake');
-            void btn?.offsetWidth;
-            btn?.classList.add('animate-fabShake');
+            if (btn) {
+              btn.classList.remove('animate-fabShake');
+              void btn.offsetWidth;
+              btn.classList.add('animate-fabShake');
+            }
           }, 50);
         }}
         id="feedbackBtn"
-        className="fixed bottom-6 right-6 w-14 h-14 rounded-full shadow-xl bg-[linear-gradient(110.8246056093817deg,rgba(243,72,104,1)_15.152343635757763%,rgba(242,71,104,1)_15.152343635757763%,rgba(158,0,236,1)_86.8710970133543%)] z-50
+        className="fixed bottom-6 right-6 w-14 h-14 rounded-full shadow-xl bg-gradient-to-br from-pink-500 to-purple-600 z-50
         hover:scale-110 active:scale-95 transition-all duration-200 origin-center animate-fabPop flex items-center justify-center"
+        aria-label="피드백 작성"
       >
         <Image
           src="/images/feedback.png"
@@ -88,37 +96,40 @@ export default function FeedbackButton() {
 
       {/* Modal */}
       {open && (
-        <div className="fixed inset-0 flex justify-center items-center z-50">
+        <div className="fixed inset-0 flex justify-center items-center z-50 pointer-events-none">
           <div
-            className={`bg-white rounded-2xl w-96 p-6 shadow-2xl transition-all
+            className={`bg-white rounded-2xl w-96 p-6 shadow-2xl transition-all pointer-events-auto
             ${closing ? 'animate-modalFadeOut' : 'animate-modalPopBlur'}`}
+            onClick={(e) => e.stopPropagation()}
           >
             <h2 className="text-xl font-bold text-gray-800 text-center mb-4">
               피드백 남기기
             </h2>
             <form onSubmit={handleSubmit} className="flex flex-col gap-3">
               <textarea
-                className="border rounded-lg p-3 h-32 focus:ring-2 focus:ring-purple-400"
+                className="border rounded-lg p-3 h-32 focus:ring-2 focus:ring-purple-400 focus:outline-none text-gray-800"
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
                 placeholder="피드백 작품명 + 구체적인 피드백 내용을 써주세요"
+                disabled={loading}
               />
               <button
                 type="submit"
-                disabled={loading}
-                className="bg-purple-500 text-white py-2 rounded-lg hover:bg-purple-600 disabled:opacity-50"
+                disabled={loading || !content.trim()}
+                className="bg-purple-500 text-white py-2 rounded-lg hover:bg-purple-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
               >
                 {loading ? '전송 중…' : '전송'}
               </button>
               <button
                 type="button"
                 onClick={closeModal}
-                className="bg-gray-300 text-gray-700 py-2 rounded-lg hover:bg-gray-400"
+                className="bg-gray-300 text-gray-700 py-2 rounded-lg hover:bg-gray-400 transition-colors"
+                disabled={loading}
               >
                 닫기
               </button>
               {message && (
-                <p className={`text-center text-sm ${error ? 'text-red-500' : 'text-green-600'}`}>
+                <p className={`text-center text-sm font-medium ${error ? 'text-red-500' : 'text-green-600'}`}>
                   {message}
                 </p>
               )}

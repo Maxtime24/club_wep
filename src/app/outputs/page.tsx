@@ -1,11 +1,13 @@
-import { supabaseServer } from '@/lib/supabaseClient';
+import { getSupabaseServer } from '@/lib/supabaseClient';
 import ProjectCard from '@/components/common/ProjectCard';
 
 export const revalidate = 5;
 
 export default async function OutputsPage() {
-  // supabaseServer 사용 → RLS 무시
-  const { data: projects, error } = await supabaseServer
+  // ✅ 함수를 호출해서 supabase 인스턴스 가져오기
+  const supabase = getSupabaseServer();
+  
+  const { data: projects, error } = await supabase
     .from('projects')
     .select('*')
     .order('id', { ascending: false });
